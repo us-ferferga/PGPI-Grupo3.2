@@ -28,7 +28,6 @@
   "devDependencies": {
     "@iconify/json": "2.2.132",
     "@types/node": "20.8.8",
-    "@types/uuid": "9.0.6",
     "@typescript-eslint/eslint-plugin": "6.9.0",
     "@typescript-eslint/parser": "6.9.0",
     "@vitejs/plugin-vue": "4.4.0",
