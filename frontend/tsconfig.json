@@ -1,41 +1,44 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "Bundler",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "sourceMap": true,
-    "strict": true,
-    "noEmit": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "experimentalDecorators": true,
-    "removeComments": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "types": [
-      "axios",
-      "unplugin-icons/types/vue",
-      "vite-plugin-vue-layouts/client",
-      "vite/client",
-      "vue"
-    ]
-  },
-  "vueCompilerOptions": {
-    "strictTemplates": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.vue",
-    "**/**/*.json",
-    "types/**/*.d.ts",
-    ".eslintrc.cjs",
-    "vite.config.ts"
-  ],
-  "exclude": ["node_modules"]
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ES2022",
+		"moduleResolution": "Bundler",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"allowJs": true,
+		"sourceMap": true,
+		"strict": true,
+		"noEmit": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"experimentalDecorators": true,
+		"removeComments": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"src/*"
+			]
+		},
+		"types": [
+			"axios",
+			"unplugin-icons/types/vue",
+			"vite/client",
+			"vue"
+		]
+	},
+	"vueCompilerOptions": {
+		"strictTemplates": true
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.vue",
+		"**/**/*.json",
+		"types/**/*.d.ts",
+		".eslintrc.cjs",
+		"vite.config.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
 }

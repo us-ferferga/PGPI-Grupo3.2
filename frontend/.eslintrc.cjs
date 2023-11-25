@@ -4,6 +4,7 @@ const CI_environment = process.env.CI ? 0 : 1;
 const commonTSAndVueConfig = {
   extends: ['plugin:@typescript-eslint/recommended-requiring-type-checking'],
   rules: {
+    // TODO: Investigate why this rule reports false positives
     '@typescript-eslint/no-misused-promises': 'off'
   }
 };
@@ -11,52 +12,49 @@ const commonTSAndVueConfig = {
 module.exports = {
   root: true,
   env: {
-    node: false,
+    node: true,
     browser: true
   },
   reportUnusedDisableDirectives: true,
   ignorePatterns: [
     'types/global/routes.d.ts',
-    'types/global/components.d.ts'
+    'types/global/components.d.ts',
+    'dist',
+    'node_modules'
   ],
   extends: [
     'eslint:recommended',
     'plugin:jsonc/recommended-with-json',
     'plugin:no-unsanitized/DOM',
     'plugin:optimize-regex/recommended',
-    'plugin:no-use-extend-native/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:promise/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:vue/vue3-recommended',
     'plugin:sonarjs/recommended',
-    'plugin:eslint-comments/recommended',
     'plugin:css/recommended',
     'plugin:unicorn/recommended',
-    'plugin:you-dont-need-lodash-underscore/compatible',
-    'plugin:@intlify/vue-i18n/recommended',
     'plugin:vue-scoped-css/vue3-recommended'
   ],
   plugins: [
     'jsdoc',
+    'jsonc',
     'no-unsanitized',
     'optimize-regex',
     'no-secrets',
-    'no-use-extend-native',
     '@typescript-eslint',
     'promise',
     'import',
     'vue',
     'sonarjs',
-    'eslint-comments',
     'css',
     'unicorn',
     'vue-scoped-css',
-    '@intlify/vue-i18n',
     'file-progress'
   ],
   rules: {
+    'no-extend-native': 'error',
     'file-progress/activate': CI_environment,
     'semi': 'off',
     'capitalized-comments': 'error',
@@ -90,11 +88,11 @@ module.exports = {
     'no-secrets/no-secrets': 'error',
     'import/newline-after-import': 'error',
     'import/order': 'error',
-    'import/no-unresolved': ['error', { ignore: ['virtual:*'] }],
+    'import/no-unresolved': ['error', { ignore: ['virtual:*', 'vue-router/auto/*'] }],
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['vite.config.ts'],
+        devDependencies: ['vite.config.ts', 'scripts/**/*.ts'],
         optionalDependencies: false,
         peerDependencies: false,
         bundledDependencies: false
@@ -109,19 +107,20 @@ module.exports = {
           {
             group: ['*/plugins*'],
             message:
-              'Do not use Vue plugins directly. Use composables (from @/composables) instead.',
+                            'Do not use Vue plugins directly. Use composables (from @/composables) instead.',
             allowTypeImports: true
           },
           {
             group: ['*/main*'],
             message:
-              'Do not use the Vue instance directly. Use composables (from @/composables) instead.',
+                            'Do not use the Vue instance directly. Use composables (from @/composables) instead.',
             allowTypeImports: true
           }
         ]
       }
     ],
     'jsdoc/require-hyphen-before-param-description': 'error',
+    'jsdoc/require-description': 'error',
     'jsdoc/no-types': 'error',
     'jsdoc/require-jsdoc': 'error',
     'jsdoc/informative-docs': 'error',
@@ -180,12 +179,10 @@ module.exports = {
       // Always require blank lines before return statements
       { blankLine: 'always', prev: '*', next: 'return' }
     ],
-    // Force some component order stuff, formatting and such, for consistency
     'curly': ['error', 'all'],
     'unicorn/filename-case': 'off',
     'unicorn/consistent-function-scoping': 'off',
     'unicorn/prevent-abbreviations': 'off',
-    'unicorn/no-await-expression-member': 'off',
     'no-multiple-empty-lines': 'error',
     'vue/component-name-in-template-casing': [
       'error',
@@ -219,6 +216,14 @@ module.exports = {
       files: ['*.md'],
       rules: {
         'no-trailing-spaces': ['off']
+      }
+    },
+    {
+      files: ['*.json'],
+      parser: 'jsonc-eslint-parser',
+      rules: {
+        quotes: ['error', 'double'],
+        semi: 'off'
       }
     },
     {
