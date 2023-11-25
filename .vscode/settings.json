@@ -29,5 +29,12 @@
         "vue": "html"
     },
     "vue.autoInsert.dotValue": true,
-    "vue.server.fullCompletionList": true
+    "vue.server.fullCompletionList": true,
+    "git.autoStash": true,
+    "git.autofetch": true,
+    "git.alwaysSignOff": true,
+    "git.fetchOnPull": true,
+    "git.pruneOnFetch": true,
+    "git.rebaseWhenSync": true,
+    "git.terminalGitEditor": true
 }
