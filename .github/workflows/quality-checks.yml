@@ -1,0 +1,113 @@
+name: Quality checks 👌🧪
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths-ignore:
+      - "**/*.md"
+  workflow_dispatch:
+
+jobs:
+  dependency-review:
+    name: Vulnerable dependencies 🔎
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+        with:
+          show-progress: false
+
+      - name: Scan
+        uses: actions/dependency-review-action@v3.1.3
+
+  lint_frontend:
+    name: Lint (frontend) 🔬
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v4.1.1
+        with:
+          show-progress: false
+
+      - name: Setup node environment ⚙️
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: 20
+          check-latest: true
+
+      - name: Install dependencies 📦
+        run: npm ci --no-audit
+
+      - name: Run linter ✏️
+        run: npm run lint
+
+  typecheck_frontend:
+    name: Typecheck (frontend) 🈯
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v4.1.1
+        with:
+          show-progress: false
+
+      - name: Setup node environment ⚙️
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: 20
+          check-latest: true
+
+      - name: Install dependencies 📦
+        run: npm ci --no-audit
+
+      - name: Run typecheck 📖
+        run: npm run typecheck
+
+  build_frontend:
+    name: Build (frontend) 🏗️
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v4.1.1
+        with:
+          show-progress: false
+
+      - name: Setup node environment ⚙️
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: 20
+          check-latest: true
+
+      - name: Install dependencies 📦
+        run: npm ci --no-audit
+
+      - name: Run build ⚒️
+        run: npm run build
+
+  conventional_commits:
+    name: Conventional commits check 💬
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v4.1.1
+        with:
+          show-progress: false
+
+      - name: Check if all commits comply with the specification
+        uses: webiny/action-conventional-commits@v1.2.0
