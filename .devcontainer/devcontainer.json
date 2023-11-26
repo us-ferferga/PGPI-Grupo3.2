@@ -21,6 +21,7 @@
   },
   "postCreateCommand": {
     "npm": "cd frontend && npm ci --no-audit",
+    "pip": "pip install -r backend/requirements.txt",
     "clear-yarn": "unset YARN_VERSION && rm -rf /opt/yarn*",
     "use-bash": "rm -rf /bin/sh && ln -s /bin/bash /bin/sh",
     "git-editor": "git config --global core.editor 'code --wait'",
