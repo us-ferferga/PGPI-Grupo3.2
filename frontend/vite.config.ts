@@ -7,7 +7,8 @@ import Components from 'unplugin-vue-components/vite';
 import VueRouter from 'unplugin-vue-router/vite';
 import {
   VueUseComponentsResolver,
-  VueUseDirectiveResolver
+  VueUseDirectiveResolver,
+  QuasarResolver
 } from 'unplugin-vue-components/resolvers';
 import { presetUno } from 'unocss';
 import UnoCSS from 'unocss/vite';
@@ -45,7 +46,8 @@ export default defineConfig(({ mode }): UserConfig => {
         resolvers: [
           IconsResolver(),
           VueUseComponentsResolver(),
-          VueUseDirectiveResolver()
+          VueUseDirectiveResolver(),
+          QuasarResolver()
         ]
       }),
       /**

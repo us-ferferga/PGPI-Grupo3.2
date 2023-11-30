@@ -8,6 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     PageView: typeof import('./../../src/components/View/PageView.vue')['default']
+    QAvatar: typeof import('quasar')['QAvatar']
+    QHeader: typeof import('quasar')['QHeader']
+    QLayout: typeof import('quasar')['QLayout']
+    QPageContainer: typeof import('quasar')['QPageContainer']
+    QToolbar: typeof import('quasar')['QToolbar']
+    QToolbarTitle: typeof import('quasar')['QToolbarTitle']
     RootView: typeof import('./../../src/components/View/RootView.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

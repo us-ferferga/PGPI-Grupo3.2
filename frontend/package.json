@@ -19,11 +19,14 @@
         "defaults and supports es6-module"
     ],
     "dependencies": {
+        "@fontsource/jost": "5.0.15",
+        "@tanstack/vue-query": "5.10.0",
         "@unocss/reset": "0.57.7",
         "@vueuse/components": "10.6.1",
         "@vueuse/core": "10.6.1",
         "axios": "1.6.2",
         "lodash-es": "4.17.21",
+        "quasar": "2.14.1",
         "vue": "3.3.9",
         "vue-router": "4.2.5"
     },
@@ -55,6 +58,7 @@
         "knip": "2.43.0",
         "lightningcss": "1.22.1",
         "rollup-plugin-visualizer": "5.9.3",
+        "sass": "1.69.5",
         "typescript": "5.3.2",
         "typescript-eslint-parser-for-extra-files": "0.5.0",
         "unocss": "0.57.7",

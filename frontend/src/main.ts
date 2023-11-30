@@ -5,6 +5,8 @@
  */
 
 import { createApp } from 'vue';
+import { Quasar } from 'quasar';
+import { VueQueryPlugin } from '@tanstack/vue-query';
 import Root from '@/App.vue';
 /* eslint-disable @typescript-eslint/no-restricted-imports */
 import router from '@/plugins/router';
@@ -13,6 +15,8 @@ import router from '@/plugins/router';
 /**
  * - GLOBAL STYLES -
  */
+import '@fontsource/jost';
+import 'quasar/src/css/index.sass';
 import 'virtual:uno.css';
 import '@unocss/reset/normalize.css';
 import '@unocss/reset/sanitize/sanitize.css';
@@ -22,6 +26,21 @@ import '@unocss/reset/sanitize/assets.css';
 const app = createApp(Root);
 
 app.use(router);
+app.use(Quasar, {
+  config: {
+    brand: {
+      primary: '#000000',
+      secondary: '#0d8276',
+      accent: '#9C27B0',
+      dark: '#1d1d1d',
+      positive: '#21BA45',
+      negative: '#C10015',
+      info: '#1a6473',
+      warning: '#F2C037'
+    }
+  }
+});
+app.use(VueQueryPlugin);
 
 await router.isReady();
 app.mount('#app');
