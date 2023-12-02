@@ -55,7 +55,7 @@
         "eslint-plugin-vue": "9.18.1",
         "eslint-plugin-vue-scoped-css": "2.5.1",
         "jsonc-eslint-parser": "2.4.0",
-        "knip": "2.43.0",
+        "knip": "3.4.0",
         "lightningcss": "1.22.1",
         "rollup-plugin-visualizer": "5.9.3",
         "sass": "1.69.5",
