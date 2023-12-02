@@ -16,59 +16,44 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from 'vue'
 
+const selected = ref([])
+
 const columns = [
-  {
-    name: 'dia',
-    required: true,
-    label: 'Día',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
+  
+  { name: 'dia', align: 'center', label: 'Día', field: 'dia', sortable: true }
+  ,
   { name: 'hora', align: 'center', label: 'Hora', field: 'hora', sortable: true }
 ]
 
 const rows = [
   {
-    name: 'Lunes',
+    dia: 'Lunes',
     hora: '10:30'
   },
   {
-    name: 'Martes',
+    dia: 'Martes',
     hora: '10:30'
   },
   {
-    name: 'Miércoles',
+    dia: 'Martes',
     hora: '18:30'
   },
   {
-    name: 'Jueves',
+    dia: 'Jueves',
     hora: '10:30'
   },
   {
-    name: 'Viernes',
+    dia: 'Viernes',
     hora: '10:30'
   },
 
 ]
 
-export default {
-  setup () {
-    const selected = ref([])
-
-    return {
-      selected,
-      columns,
-      rows,
-
-      getSelectedString () {
+function getSelectedString () {
         return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
-      }
-    }
-  }
+  
 }
 </script>
