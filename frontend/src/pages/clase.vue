@@ -7,6 +7,10 @@
       <div class="col-6">
         <imagen></imagen>
       </div>
+    <div class="row">
+      <comprar-ya style="margin-left: 50px;"></comprar-ya>
+      <carrito></carrito>
+    </div>
     </div>
     <horario></horario>
   </div>
