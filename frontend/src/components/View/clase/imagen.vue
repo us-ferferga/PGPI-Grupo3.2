@@ -1,20 +1,19 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <div>
-        <q-img
-          src="https://picsum.photos/500/300"
-          :ratio="16/9"
-          img-class="imagen"
-        />
-      </div>
+      <QImg
+        src="https://picsum.photos/500/300"
+        :ratio="16/9"
+        class="imagen" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  
+
 </script>
 
-<style>
+<style scoped>
   .imagen {
     height: 300px;
     width: 500px;

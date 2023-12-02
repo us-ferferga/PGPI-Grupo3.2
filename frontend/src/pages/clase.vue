@@ -2,27 +2,19 @@
   <div style="margin-top: 5%;">
     <div class="row">
       <div class="col-6">
-        <descripcion></descripcion>
+        <Descripcion />
       </div>
       <div class="col-6">
-        <imagen></imagen>
+        <Imagen />
       </div>
-    <div class="row">
-      <comprar-ya style="margin-left: 50px;"></comprar-ya>
-      <carrito></carrito>
+      <div class="row">
+        <ComprarYa style="margin-left: 50px;" />
+        <Carrito />
+      </div>
     </div>
-    </div>
-    <horario></horario>
+    <Horario />
   </div>
-    
 </template>
 
-<script setup lang="ts">  
-
-
+<script setup lang="ts">
 </script>
-
-<style>
-
-
-</style>

@@ -1,35 +1,40 @@
 <template>
   <div class="card">
     <div class="q-pa-md row items-start q-gutter-md">
-      <q-card flat bordered class="my-card">
-        <q-card-section>
-          <div class="text-h2">Nombre de la actividad</div>
-        </q-card-section>
+      <QCard
+        flat
+        bordered
+        class="my-card">
+        <QCardSection>
+          <div class="text-h2">
+            Nombre de la actividad
+          </div>
+        </QCardSection>
 
-        <q-separator inset />
+        <QSeparator inset />
 
-        <q-card-section>
+        <QCardSection>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua.
-        </q-card-section>
+        </QCardSection>
 
-        <q-card-section>
+        <QCardSection>
           Clase impartida por: Perro sanche
-        </q-card-section>
+        </QCardSection>
 
-        <q-card-section>
+        <QCardSection>
           Sala: Nombre de sala
-        </q-card-section>
-      </q-card>
+        </QCardSection>
+      </QCard>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  
+
 </script>
 
-<style>
+<style scoped>
   .card{
     height: 300px;
     width: 700px;
