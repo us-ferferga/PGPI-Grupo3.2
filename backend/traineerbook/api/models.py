@@ -5,39 +5,39 @@ from django.contrib.auth.models import User
 
 PAY_METHOD = ['online','payback']
 
-class Sala (models.Model):
+class ClassRoom (models.Model):
   name =  models.CharField( null = False, blank=False)
 
-class Profesor (models.Model):
+class Teacher (models.Model):
   name =  models.CharField(null = False, blank=False)
 
-class Actividad(models.Model):
+class Activity(models.Model):
   image = models.URLField(max_length=1000, null=True, blank=False)
   description = models.TextField(blank=False)
-  teacher = models.ForeignKey(Profesor,on_delete=models.CASCADE, related_name='Profesor')
-  class_space = models.ForeignKey(Sala,on_delete=models.CASCADE, related_name='Sala')
+  teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE, related_name='Teacher')
+  class_space = models.ForeignKey(ClassRoom,on_delete=models.CASCADE, related_name='ClassRoom')
 
-class Producto(models.Model):
+class Product(models.Model):
  product_hour_init = models.DateTimeField(null=True, blank=True)
  product_hour_fin = models.DateTimeField(null=True, blank=True)
  quantity = models.IntegerField(validators=[MinValueValidator(0)])
  price = models.IntegerField(validators=[MinValueValidator(0)])
- actividad = models.ForeignKey(Actividad, on_delete=models.CASCADE, related_name='Actividad')
+ activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='Activity')
 
-class Reserva(models.Model):
+class Reservation(models.Model):
   user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='User',null=True)
-  product = models.ManyToOneRel(Producto, related_name='Producto')
+  product = models.ManyToOneRel(Product, related_name='Product')
   buy_date = models.DateField(null=True, blank=True)
   buy_method = models.CharField(choices=PAY_METHOD) 
 
 class Comment(models.Model):
   user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='User',null=True)
-  activity = models.ForeignKey(Actividad, on_delete=models.CASCADE, related_name='Actividad')
+  activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='Activity')
   content = models.TextField(blank=False)
 
 class Incident(models.Model):
   user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='User',null=True)
-  reservation = models.ForeignKey(Reserva, on_delete=models.CASCADE, related_name='Reserva')
+  reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='Reservation')
   content = models.TextField(blank=False)
   
 
