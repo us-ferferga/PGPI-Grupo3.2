@@ -29,7 +29,7 @@ interface Column {
   sortable: boolean;
 }
 
-const columns: Array<Column>= [
+const columns: Array<Column> = [
   { name: 'dia', align: 'center', label: 'Día', field: 'dia', sortable: true },
   { name: 'hora', align: 'center', label: 'Hora', field: 'hora', sortable: true }
 ];
@@ -55,7 +55,6 @@ const rows = [
     dia: 'Viernes',
     hora: '10:30'
   }
-
 ];
 
 /**
