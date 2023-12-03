@@ -29,6 +29,7 @@
     "emmet.includeLanguages": {
         "vue": "html"
     },
+    "unocss.root": "frontend",
     "vue.autoInsert.dotValue": true,
     "vue.server.fullCompletionList": true,
     "git.autoStash": true,
