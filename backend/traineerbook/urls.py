@@ -1,3 +1,6 @@
+from django.urls import path
+from TraineerbookApp import views
+
 """
 URL configuration for traineerbook project.
 
@@ -19,4 +22,5 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('products/', views.GetProductSerializer, name="product-list")
 ]
