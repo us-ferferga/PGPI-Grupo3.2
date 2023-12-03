@@ -7,14 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Carrito: typeof import('./../../src/components/View/clase/carrito.vue')['default']
-    ComprarYa: typeof import('./../../src/components/View/clase/comprarYa.vue')['default']
-    Descripcion: typeof import('./../../src/components/View/clase/descripcion.vue')['default']
-    FooterDatosEmpresa: typeof import('./../../src/components/View/datosEmpresa/footerDatosEmpresa.vue')['default']
-    Horario: typeof import('./../../src/components/View/clase/horario.vue')['default']
+    Carrito: typeof import('./../../src/components/pages/clase/carrito.vue')['default']
+    ComprarYa: typeof import('./../../src/components/pages/clase/comprarYa.vue')['default']
+    Descripcion: typeof import('./../../src/components/pages/clase/descripcion.vue')['default']
+    FooterDatosEmpresa: typeof import('./../../src/components/pages/about/footerDatosEmpresa.vue')['default']
+    Horario: typeof import('./../../src/components/pages/clase/horario.vue')['default']
     'IIc:sharpPhone': typeof import('~icons/ic/sharp-phone')['default']
-    Imagen: typeof import('./../../src/components/View/clase/imagen.vue')['default']
-    ImagenDatosEmpresa: typeof import('./../../src/components/View/datosEmpresa/imagenDatosEmpresa.vue')['default']
+    Imagen: typeof import('./../../src/components/pages/clase/imagen.vue')['default']
+    ImagenDatosEmpresa: typeof import('./../../src/components/pages/about/imagenDatosEmpresa.vue')['default']
     'IMdi:location': typeof import('~icons/mdi/location')['default']
     IMdiCart: typeof import('~icons/mdi/cart')['default']
     PageView: typeof import('./../../src/components/View/PageView.vue')['default']
@@ -35,8 +35,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SuspenseView: typeof import('./../../src/components/View/SuspenseView.vue')['default']
-    Tabla: typeof import('./../../src/components/View/clase/tabla.vue')['default']
-    Texto: typeof import('./../../src/components/View/datosEmpresa/texto.vue')['default']
+    Tabla: typeof import('./../../src/components/pages/clase/tabla.vue')['default']
+    Texto: typeof import('./../../src/components/pages/about/texto.vue')['default']
     TransitionView: typeof import('./../../src/components/View/TransitionView.vue')['default']
   }
 }
