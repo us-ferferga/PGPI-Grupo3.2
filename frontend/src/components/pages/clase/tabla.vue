@@ -2,11 +2,14 @@
   <div class="q-pa-md">
     <QTable
       v-model:selected="selected"
+      style="height: 400px"
       flat
       bordered
       :rows="rows"
       :columns="columns"
       row-key="name"
+      hide-bottom
+      virtual-scroll
       :selected-rows-label="getSelectedString"
       selection="multiple" />
 

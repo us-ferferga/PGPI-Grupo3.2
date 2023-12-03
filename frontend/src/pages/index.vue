@@ -6,121 +6,23 @@
     class="q-pa-md"
     style="margin: 2%;">
     <div class="q-col-gutter-md row items-start">
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div><div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
-      </div>
-
-      <div class="col-4">
-        <QImg
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
-          class="imagen animacion">
-          <div class="absolute-full text-subtitle2 flex flex-center">
-            <h4>Caption</h4>
-          </div>
-        </QImg>
+      <div
+        v-for="i in 12"
+        :key="i"
+        class="col-4">
+        <RouterLink
+          v-slot="{ navigate }"
+          to="/clase"
+          custom>
+          <QImg
+            src="https://cdn.quasar.dev/img/parallax2.jpg"
+            class="imagen animacion cursor-pointer"
+            @click="navigate">
+            <div class="absolute-full text-subtitle2 flex flex-center">
+              <h4>Actividad {{ i }}</h4>
+            </div>
+          </QImg>
+        </RouterLink>
       </div>
     </div>
   </div>
