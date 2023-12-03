@@ -37,8 +37,7 @@
 		"types/**/*.d.ts",
 		".eslintrc.cjs",
 		"vite.config.ts",
-		"knip.ts",
-		"main.ts"
+		"knip.ts"
 	],
 	"exclude": [
 		"node_modules"
