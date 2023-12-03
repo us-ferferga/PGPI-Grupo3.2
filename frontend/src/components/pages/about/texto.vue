@@ -9,7 +9,7 @@
     ofreciendo un amplio abanico de actividades, servicios deportivos y de ocio para personas de todas las edades.
   </p>
   <p>
-    Desde 2023, en Forus nos dedicamos a la gestión privada de instalaciones municipales de deporte y ocio, con criterios de máxima 
+    Desde 2023, en Forus nos dedicamos a la gestión privada de instalaciones municipales de deporte y ocio, con criterios de máxima
     calidad y eficiencia en el servicio, y también construimos y gestionamos centros privados.
   </p>
 </template>
