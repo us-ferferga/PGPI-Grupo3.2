@@ -12,6 +12,7 @@ declare module 'vue' {
     Descripcion: typeof import('./../../src/components/pages/clase/descripcion.vue')['default']
     FooterDatosEmpresa: typeof import('./../../src/components/pages/about/footerDatosEmpresa.vue')['default']
     Horario: typeof import('./../../src/components/pages/clase/horario.vue')['default']
+    IFluentPerson28Filled: typeof import('~icons/fluent/person28-filled')['default']
     Imagen: typeof import('./../../src/components/pages/clase/imagen.vue')['default']
     ImagenDatosEmpresa: typeof import('./../../src/components/pages/about/imagenDatosEmpresa.vue')['default']
     IMdiCart: typeof import('~icons/mdi/cart')['default']
@@ -24,7 +25,11 @@ declare module 'vue' {
     QCardSection: typeof import('quasar')['QCardSection']
     QHeader: typeof import('quasar')['QHeader']
     QImg: typeof import('quasar')['QImg']
+    QItem: typeof import('quasar')['QItem']
+    QItemSection: typeof import('quasar')['QItemSection']
     QLayout: typeof import('quasar')['QLayout']
+    QList: typeof import('quasar')['QList']
+    QMenu: typeof import('quasar')['QMenu']
     QPageContainer: typeof import('quasar')['QPageContainer']
     QParallax: typeof import('quasar')['QParallax']
     QSeparator: typeof import('quasar')['QSeparator']
@@ -38,5 +43,6 @@ declare module 'vue' {
     Tabla: typeof import('./../../src/components/pages/clase/tabla.vue')['default']
     Texto: typeof import('./../../src/components/pages/about/texto.vue')['default']
     TransitionView: typeof import('./../../src/components/View/TransitionView.vue')['default']
+    UserAvatar: typeof import('./../../src/components/layout/UserAvatar.vue')['default']
   }
 }
