@@ -6,6 +6,7 @@
 
 import { createApp } from 'vue';
 import { Quasar } from 'quasar';
+import quasarLang from 'quasar/lang/es';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import Root from '@/App.vue';
 /* eslint-disable @typescript-eslint/no-restricted-imports */
@@ -16,7 +17,7 @@ import router from '@/plugins/router';
  * - GLOBAL STYLES -
  */
 import '@fontsource/jost';
-import 'quasar/src/css/index.sass';
+import 'quasar/dist/quasar.css';
 import 'virtual:uno.css';
 import '@unocss/reset/normalize.css';
 import '@unocss/reset/sanitize/sanitize.css';
@@ -38,7 +39,8 @@ app.use(Quasar, {
       info: '#1a6473',
       warning: '#F2C037'
     }
-  }
+  },
+  lang: quasarLang
 });
 app.use(VueQueryPlugin);
 
