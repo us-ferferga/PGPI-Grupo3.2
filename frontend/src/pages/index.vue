@@ -27,7 +27,7 @@
       </div>
 
       <div class="col-4">
-        <QImg 
+        <QImg
           src="https://cdn.quasar.dev/img/parallax2.jpg"
           class="imagen animacion">
           <div class="absolute-full text-subtitle2 flex flex-center">
