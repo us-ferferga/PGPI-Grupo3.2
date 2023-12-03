@@ -7,7 +7,10 @@ import { useTitle } from '@vueuse/core';
 import metaGuard from './middlewares/meta';
 
 const router = createRouter({
-  history: createWebHashHistory()
+  history: createWebHashHistory(),
+  scrollBehavior(_to, _from, savedPosition) {
+    return savedPosition ?? { top: 0 };
+  }
 });
 
 /**
