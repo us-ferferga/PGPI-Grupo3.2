@@ -1,8 +1,6 @@
-import type { KnipConfig } from 'knip';
-
-const config: KnipConfig = {
+const config = {
   entry: ['src/main.ts'],
-  project: ['src/**/**'],
+  project: ['src/**/**']
 };
 
 export default config;
