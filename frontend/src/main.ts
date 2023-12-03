@@ -10,6 +10,7 @@ import quasarLang from 'quasar/lang/es';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import Root from '@/App.vue';
 /* eslint-disable @typescript-eslint/no-restricted-imports */
+import quasarIconSet from '@/plugins/quasar/material-icons';
 import router from '@/plugins/router';
 /* eslint-enable @typescript-eslint/no-restricted-imports */
 
@@ -40,7 +41,8 @@ app.use(Quasar, {
       warning: '#F2C037'
     }
   },
-  lang: quasarLang
+  lang: quasarLang,
+  iconSet: quasarIconSet
 });
 app.use(VueQueryPlugin);
 
