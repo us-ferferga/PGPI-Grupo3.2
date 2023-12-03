@@ -12,17 +12,18 @@
     </div>
     <div class="row">
       <div
-        class="col" style="display: flex;justify-content: center">
-        <div 
+        class="col"
+        style="display: flex;justify-content: center">
+        <div
           class="row">
-            <i-ic:sharp-phone/>
-            <p>955 555 555</p>
+          <IMdiPhone />
+          <p>955 555 555</p>
         </div>
       </div>
       <div class="col">
-        <div 
+        <div
           class="row">
-          <i-mdi:location></i-mdi:location>
+          <IMdiLocation />
           <p>c/Inventada, 56</p>
         </div>
       </div>
