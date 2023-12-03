@@ -2,12 +2,19 @@
   <QLayout>
     <QHeader elevated>
       <QToolbar>
-        <QToolbarTitle>
-          <QAvatar>
-            <img src="/logo.png" />
-          </QAvatar>
-          TrainerBook
-        </QToolbarTitle>
+        <RouterLink
+          v-slot="{ navigate }"
+          to="/"
+          custom>
+          <QToolbarTitle
+            class="cursor-pointer"
+            @click="navigate">
+            <QAvatar>
+              <img src="/logo.png" />
+            </QAvatar>
+            TrainerBook
+          </QToolbarTitle>
+        </RouterLink>
       </QToolbar>
     </QHeader>
 
