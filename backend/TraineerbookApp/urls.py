@@ -22,5 +22,4 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('products/', views.GetProductSerializer.as_view(), name="product-list")
 ]

@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
-    'TraineerbookApp'
+    'TraineerbookApp',
+    'rest_framework_swagger',
+    'drf_yasg',
+    
 ]
 
 MIDDLEWARE = [
