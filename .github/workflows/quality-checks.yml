@@ -111,3 +111,63 @@ jobs:
 
       - name: Check if all commits comply with the specification
         uses: webiny/action-conventional-commits@v1.2.0
+  
+  run_backend:
+    name: Run backend 🏃‍♂️
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v4.1.1
+        with:
+          show-progress: false
+
+      - name: Setup Python 🐍
+        uses: actions/setup-python@v4.7.1
+        with:
+          python-version: '3.x'
+          check-latest: true
+
+      - name: Install dependencies 📦
+        run: pip install -r requirements.txt
+
+      - name: Perform migrations 🗃️
+        run: python ./manage.py migrate
+
+      - name: Run Django Server 🏃‍♂️
+        run: |
+          python manage.py runserver &
+          sleep 10 # Espera a que el servidor esté listo
+
+      - name: Check server 🩺
+        run: |
+          curl -I http://127.0.0.1:8000/
+          sudo pkill python
+
+  test_backend:
+    name: Test backend 🔍
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v4.1.1
+        with:
+          show-progress: false
+
+      - name: Setup Python 🐍
+        uses: actions/setup-python@v4.7.1
+        with:
+          python-version: '3.x'
+          check-latest: true
+
+      - name: Install dependencies 📦
+        run: pip install -r requirements.txt
+
+      - name: Perform tests ⚒️
+        run: python ./manage.py test
