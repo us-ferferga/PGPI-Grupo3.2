@@ -41,7 +41,7 @@ urlpatterns = [
     path('products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
     path('activity/products/<int:pk>/', views.getProductDetailApiViewSet.as_view({'get': 'list'}), name="product-details"),
     path('activitys/', views.getActivityApiViewSet.as_view({'get': 'list'}), name="activity-list"),
-    path('swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/*.{json,yaml}', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
