@@ -19,8 +19,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_swagger.views import get_swagger_view
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Your API",
+      default_version='v1',
+      description="Your API description",
+      terms_of_service="https://www.yourapp.com/terms/",
+      contact=openapi.Contact(email="contact@yourapp.com"),
+      license=openapi.License(name="Your License"),
+   ),
+   public=True,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('products/', views.GetProductSerializer, name="product-list")
+    path('products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
+    path('activity/products/<int:pk>/', views.getProductDetailApiViewSet.as_view({'get': 'list'}), name="product-details"),
+    path('activitys/', views.getActivityApiViewSet.as_view({'get': 'list'}), name="activity-list"),
+    path('swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
 ]

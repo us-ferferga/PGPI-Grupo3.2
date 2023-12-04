@@ -26,3 +26,9 @@ class GetProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+class GetProductSerializer2(ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = '__all__'
