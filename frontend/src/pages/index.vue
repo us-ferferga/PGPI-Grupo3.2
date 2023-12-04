@@ -1,5 +1,5 @@
 <template>
-  <h3 style="text-align: center;">
+  <h3 style="text-align: center">
     ACTIVIDADES
   </h3>
   <div
