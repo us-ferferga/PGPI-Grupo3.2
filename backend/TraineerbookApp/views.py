@@ -1,26 +1,36 @@
 from django.shortcuts import render
-from requests import Response
-from TraineerbookApp.models import *
+from rest_framework.response import Response
+from TraineerbookApp.models import Activity, Product
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from TraineerbookApp.serializer import *
 
+from rest_framework.views import APIView
+
 # Create your views here.
 
-
+"""GET devuelve listado de productos al completo FUNCIONAL"""
 class getProductsApiViewSet(ModelViewSet):
-  http_method_names = ['get']
-  
-  def get_queryset(self):
-    products = Product.objects.all()
-    serializer = GetProductSerializer(products, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    http_method_names = ['get']
 
+    serializer_class = GetProductSerializer2
+    queryset = Product.objects.all()
+
+"""GET devuelve listado de productos segun el id sea igual a la actividad del producto FUNCIONAL"""
 
 class getProductDetailApiViewSet(ModelViewSet):
-  http_method_names = ['get']
+  serializer_class = GetProductSerializer2
+  
+  def get_queryset(self):
+      
+      pk = self.kwargs.get('pk')
+      queryset = Product.objects.all().filter(activity=pk)
+      return queryset
+      
 
-  def get_queryset(self,request,pk):
-    product = Product.objects.get(id=pk)
-    serializer = GetProductSerializer(product, many=False)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+"""GET devuelve listado de actividades al completo FUNCIONAL"""
+class getActivityApiViewSet(ModelViewSet):
+    http_method_names = ['get']
+
+    serializer_class = ActivitySerializer
+    queryset = Activity.objects.all()
