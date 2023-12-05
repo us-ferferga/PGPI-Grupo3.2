@@ -22,6 +22,7 @@ from django.urls import path
 from rest_framework_swagger.views import get_swagger_view
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from TraineerbookApp.views import register, user_login, user_logout
 
 
 schema_view = get_schema_view(
@@ -41,8 +42,10 @@ urlpatterns = [
     path('products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
     path('activity/products/<int:pk>/', views.getProductDetailApiViewSet.as_view({'get': 'list'}), name="product-details"),
     path('activitys/', views.getActivityApiViewSet.as_view({'get': 'list'}), name="activity-list"),
-    path('swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-
+    path('register/', register, name='register'),
+    path('login/', user_login, name='login'),
+    path('logout/', user_logout, name='logout'),
 ]

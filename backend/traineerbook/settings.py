@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-c0y064h$u0z1nllb_0u*o$8!ta7c5flb#58$5v%ks-0_ea76jy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CSRF_USE_SESSIONS = False
+
 ALLOWED_HOSTS = []
 
 
@@ -43,8 +45,19 @@ INSTALLED_APPS = [
     'TraineerbookApp',
     'rest_framework_swagger',
     'drf_yasg',
+    'corsheaders',
     
 ]
+
+SWAGGER_SETTINGS = {
+    'DEFAULT_INFO': 'traineerbook.urls'
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
