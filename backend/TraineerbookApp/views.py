@@ -34,3 +34,25 @@ class getActivityApiViewSet(ModelViewSet):
 
     serializer_class = ActivitySerializer
     queryset = Activity.objects.all()
+
+
+"""GET devuelve listado de todos los profesores al completo"""
+class getTeacherApiViewSet(ModelViewSet):
+    http_method_names = ['get']
+
+    serializer_class = TeacherSerializer
+    queryset = Teacher.objects.all()
+
+
+"""GET devuelve listado de todos las clases al completo"""
+class getClassRoomApiViewSet(ModelViewSet):
+    http_method_names = ['get']
+
+    serializer_class = ClassRoomSerializer
+    queryset = ClassRoom.objects.all()
+
+
+"""Definir POST Y PUT para realizar una compra y para editar una compra"""
+
+"""class CUReservesApiViewSet(ModelViewSet):"""
+
