@@ -50,12 +50,19 @@ INSTALLED_APPS = [
 ]
 
 SWAGGER_SETTINGS = {
-    'DEFAULT_INFO': 'traineerbook.urls'
+    'SECURITY_DEFINITIONS': {
+        'default': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False
 }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+      'rest_framework.authentication.TokenAuthentication',
     ],
 }
 
@@ -68,7 +75,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
 
 ROOT_URLCONF = 'traineerbook.urls'

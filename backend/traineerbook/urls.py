@@ -1,5 +1,6 @@
 from django.urls import path
 from TraineerbookApp import views
+from rest_framework.authtoken.views import obtain_auth_token
 
 """
 URL configuration for traineerbook project.
@@ -22,7 +23,6 @@ from django.urls import path
 from rest_framework_swagger.views import get_swagger_view
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from TraineerbookApp.views import register, user_login, user_logout
 
 
 schema_view = get_schema_view(
@@ -34,18 +34,19 @@ schema_view = get_schema_view(
       contact=openapi.Contact(email="contact@yourapp.com"),
       license=openapi.License(name="Your License"),
    ),
-   public=True,
+   public=True
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
-    path('activity/products/<int:pk>/', views.getProductDetailApiViewSet.as_view({'get': 'list'}), name="product-details"),
-    path('activitys/', views.getActivityApiViewSet.as_view({'get': 'list'}), name="activity-list"),
+    path('products/', views.getProductsApiViewSet.as_view({'get': 'list'})),
+    path('activity/products/<int:pk>/', views.getProductDetailApiViewSet.as_view({'get': 'list'})),
+    path('activitys/', views.getActivityApiViewSet.as_view({'get': 'list'})),
     path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('register/', register, name='register'),
-    path('login/', user_login, name='login'),
-    path('logout/', user_logout, name='logout'),
+    path('auth/register/', views.RegisterUserView.as_view(), name='register'),
+    path('auth/login/', views.UserLoginView.as_view(), name='login'),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('auth/logout/', views.LogoutView.as_view(), name='logout'),
 ]

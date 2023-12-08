@@ -34,15 +34,32 @@ class GetProductSerializer2(ModelSerializer):
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user registration.
+
+    Fields:
+    - `id` (int): The ID of the user.
+    - `username` (string): The username of the user.
+    - `email` (string): The email of the user.
+    - `password` (string): The password of the user.
+
+    Note:
+    - The `password` field is write-only, and it should be sent during user registration.
+    """
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
+        fields = ['id', 'username', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        return user
-
 class UserLoginSerializer(serializers.Serializer):
+    """
+    Serializer for user login.
+
+    Fields:
+    - `username` (string): The username of the user.
+    - `password` (string): The password of the user.
+    """
+
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
