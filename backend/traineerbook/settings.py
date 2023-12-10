@@ -119,7 +119,7 @@ WSGI_APPLICATION = 'traineerbook.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DATABASE_FOLDER / 'TraineerBook_data.db',
+        'NAME': DATABASE_FOLDER / 'TraineerBook_data.sqlite3',
     }
 }
 

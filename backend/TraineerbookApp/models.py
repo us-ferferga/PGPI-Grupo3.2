@@ -15,8 +15,8 @@ class Teacher (models.Model):
   name =  models.CharField(max_length=100, null = False, blank=False)
 
 class Activity(models.Model):
-  image = models.URLField(max_length=1000, null=True, blank=False)
-  description = models.TextField(blank=False)
+  image = models.ImageField(upload_to='assets', null=True, blank=False)
+  name = models.TextField(blank=False)
   teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE, related_name='activities')
   class_space = models.ForeignKey(ClassRoom,on_delete=models.CASCADE, related_name='activities')
 
@@ -42,4 +42,9 @@ class Incident(models.Model):
   user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='incidents',null=True)
   reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='incidents')
   content = models.TextField(blank=False)
+
+class Billing(models.Model):
+  user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='billings',null=True)
+  billing_address = models.TextField(blank=False)
+
   

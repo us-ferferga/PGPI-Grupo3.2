@@ -144,8 +144,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
-db.sqlite3-journal
+*.sqlite3*
 
 # Flask stuff:
 instance/
@@ -237,9 +236,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-# SQLite Database files
-*db*
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
