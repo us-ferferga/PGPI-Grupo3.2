@@ -96,7 +96,7 @@ class LoginView(APIView):
 
                 return Response({'token': token.key}, status=status.HTTP_200_OK)
             else:
-                return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -109,9 +109,9 @@ class LogoutView(APIView):
             token = Token.objects.get(user=request.user)
         except Token.DoesNotExist:
             # Si el token no existe, la sesión ya se considera cerrada
-            return Response({'detail': 'User is not authenticated.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # Eliminar el token de autenticación
         token.delete()
 
-        return Response({'detail': 'Successfully logged out.'}, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK)
