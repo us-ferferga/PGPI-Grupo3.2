@@ -32,3 +32,14 @@ class GetProductSerializer2(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+    
+class CartProductSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    quantity = serializers.IntegerField()
+
+class ShoppingCartSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField() 
+    quantity = serializers.IntegerField(required=False, default=1)
+
+
+    
