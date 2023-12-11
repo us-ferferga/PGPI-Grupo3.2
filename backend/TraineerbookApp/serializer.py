@@ -63,8 +63,6 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
-
-
 class GetCommentSerializer(ModelSerializer):
     user = UserSerializer()
     class Meta:
@@ -77,3 +75,13 @@ class CreateCommentSerializer(ModelSerializer):
         model = Comment
         fields = ['id', 'user', 'activity', 'content']
 
+        model = Product
+        fields = '__all__'
+    
+class CartProductSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    quantity = serializers.IntegerField()
+
+class ShoppingCartSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField() 
+    quantity = serializers.IntegerField(required=False, default=1)
