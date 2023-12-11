@@ -7,22 +7,20 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
-from drf_yasg import openapi
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from drf_yasg.openapi import Response as SwaggerResponse
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 from TraineerbookApp.serializer import UserSerializer, LoginSerializer
 from rest_framework.permissions import IsAuthenticated 
-
+from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 
-# Create your views here.
+
+## Documentación sobre los decoradores para swagger:
+## https://drf-spectacular.readthedocs.io/en/latest/customization.html
 
 """GET devuelve listado de productos al completo FUNCIONAL"""
 class getProductsApiViewSet(ModelViewSet):
@@ -53,9 +51,9 @@ class getActivityApiViewSet(ModelViewSet):
 class RegisterUserView(APIView):
     permission_classes = [permissions.AllowAny]
 
-    @swagger_auto_schema(
-        request_body=UserSerializer,
-        responses={200: 'OK', 400: 'Bad Request'},
+    @extend_schema(
+        request=UserSerializer,
+        responses={200: None , 400: None}
     )
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -74,11 +72,14 @@ class RegisterUserView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
+    """
+    Inicia la sesión del usuario y devuelve el token de autenticación
+    """
     permission_classes = [permissions.AllowAny]
 
-    @swagger_auto_schema(
-        request_body=LoginSerializer,
-        responses={200: 'OK', 400: 'Bad Request'},
+    @extend_schema(
+        request=LoginSerializer,
+        responses={200: None, 400: None}
     )
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -101,8 +102,15 @@ class LoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(APIView):
+    """
+    Cierra la sesión del usuario eliminando el token de autenticación
+    """
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        request=None,
+        responses={200: None}
+    )
     def post(self, request):
         # Obtener el token asociado al usuario actual
         try:
