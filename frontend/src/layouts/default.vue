@@ -23,6 +23,7 @@
             custom>
             <QBtn
               color="secondary"
+              :disable="route.name === '/register'"
               text-color="white"
               label="Registrarse"
               class="mr-2"
@@ -34,6 +35,7 @@
             custom>
             <QBtn
               color="white"
+              :disable="route.name === '/login'"
               text-color="black"
               label="Iniciar sesión"
               @click="navigate()" />
@@ -49,4 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router/auto';
+
+const route = useRoute();
 </script>
