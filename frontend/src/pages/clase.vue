@@ -10,6 +10,21 @@
       <div class="row">
         <ComprarYa style="margin-left: 50px;" />
         <Carrito />
+        <QForm
+          class="q-gutter-md">
+          <QInput
+            v-model="text"
+            filled
+            type="textarea"
+            label="Deja un comentario"
+            style="width: 300px;" />
+          <div>
+            <QBtn
+              label="Submit"
+              type="submit"
+              color="primary" />
+          </div>
+        </QForm>
       </div>
     </div>
     <Horario />
@@ -17,4 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+
+const text = ref('');
 </script>
