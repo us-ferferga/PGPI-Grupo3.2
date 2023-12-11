@@ -228,40 +228,86 @@ class GetCommentListApiViewSet(ModelViewSet):
     queryset = Comment.objects.all().filter(activity=pk)
     return queryset
         
+
 class ShoppingCartGetView(APIView):
     def get(self, request):
         # Recupera y devuelve los productos en la cesta del usuario
         cart_products = request.session.get('cart_products', [])
-        serializer = CartProductSerializer(cart_products, many=True)
+
+        # Create a dictionary to store aggregated quantities and prices for each product
+        product_aggregation = {}
+
+        # Aggregate quantities and prices for each product
+        for item in cart_products:
+            try:
+                product = Product.objects.get(id=item['product_id'])
+                quantity = item['quantity']
+                price = product.price * quantity
+
+                if product.id not in product_aggregation:
+                    product_aggregation[product.id] = {
+                        'activity_description': product.activity.description,
+                        'product_hour_init': product.product_hour_init,
+                        'product_hour_fin': product.product_hour_fin,
+                        'quantity': quantity,
+                        'total_price': price,
+                    }
+                else:
+                    product_aggregation[product.id]['quantity'] += quantity
+                    product_aggregation[product.id]['total_price'] += price
+
+            except Product.DoesNotExist:
+                # Handle the case where the product no longer exists
+                pass
+
+        # Convert the aggregated data to a list for serialization
+        aggregated_data = list(product_aggregation.values())
+
+        # Serialize using GetProductSerializer and the aggregated data
+        serializer = GetProductSerializer(data=aggregated_data, many=True)
+        serializer.is_valid()
+
         return Response(serializer.data)
 
+
+
+@swagger_auto_schema(
+    query_serializer=CartProductSerializer,  # Especifica el serializador para parámetros de consulta
+)
 class ShoppingCartPutView(APIView):
-    def put(self, request, product_id):
-        # Obtén la cantidad del request.data
-        quantity = request.data.get('quantity', 1)  # Valor predeterminado de 1 si no se proporciona
+    serializer_class = CartProductSerializer
 
-        # Verifica si el producto existe
-        try:
-            product = Product.objects.get(id=product_id)
-        except Product.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    def put(self, request, product_id, quantity):
+        # Obtén el serializer con los datos de la solicitud
+        serializer = self.serializer_class(data={'product_id': product_id, 'quantity': quantity})
 
-        # Obtiene o inicializa el carrito en la sesión
-        cart_products = request.session.get('cart_products', [])
+        # Verifica la validez del serializer
+        if serializer.is_valid():
+            # Accede a la cantidad validada
+            quantity = serializer.validated_data['quantity']
 
-        # Intenta encontrar el producto en el carrito
-        for item in cart_products:
-            if item['product_id'] == int(product_id):
-                item['quantity'] += quantity
-                break
+            # Resto del código para manejar el carrito
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+            cart_products = request.session.get('cart_products', [])
+
+            for item in cart_products:
+                if item['product_id'] == int(product_id):
+                    item['quantity'] += quantity
+                    break
+            else:
+                cart_products.append({'product_id': int(product_id), 'quantity': quantity})
+
+            request.session['cart_products'] = cart_products
+
+            return Response(status=status.HTTP_201_CREATED)
         else:
-            # Si el producto no estaba en el carrito, agrégalo
-            cart_products.append({'product_id': int(product_id), 'quantity': quantity})
-
-        request.session['cart_products'] = cart_products
-
-        return Response(status=status.HTTP_201_CREATED)
-
+            # Si el serializer no es válido, devuelve los errores
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class ShoppingCartDeleteView(APIView):
     def delete(self, request, product_id):

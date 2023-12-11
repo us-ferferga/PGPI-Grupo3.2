@@ -77,11 +77,17 @@ class CreateCommentSerializer(ModelSerializer):
 
         model = Product
         fields = '__all__'
-    
-class CartProductSerializer(serializers.Serializer):
-    product_id = serializers.IntegerField()
-    quantity = serializers.IntegerField()
 
 class ShoppingCartSerializer(serializers.Serializer):
     product_id = serializers.IntegerField() 
     quantity = serializers.IntegerField(required=False, default=1)
+class CartProductSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField(required = True)
+    quantity = serializers.IntegerField(required = True)
+
+class GetProductSerializer(serializers.Serializer):
+    activity_description = serializers.CharField(source='activity.description', required=False)
+    product_hour_init = serializers.DateTimeField()
+    product_hour_fin = serializers.DateTimeField()
+    quantity = serializers.IntegerField()
+    total_price = serializers.DecimalField(max_digits=10, decimal_places=2)
