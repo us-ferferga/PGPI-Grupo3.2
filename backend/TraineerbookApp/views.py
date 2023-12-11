@@ -199,9 +199,7 @@ class CreateComentView(APIView):
             400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos"),
             401: OpenApiResponse(response=None, description="El usuario no esta autenticado")}
     )
-
     def post(self, request):
-
          # Obtener datos de la solicitud
         data = request.data.copy()
 
@@ -228,9 +226,7 @@ class GetCommentListApiViewSet(ModelViewSet):
         responses={
             201: OpenApiResponse(response=GetCommentSerializer)}
     )
- 
    def get_queryset(self):
-      
     pk = self.kwargs.get('pk')
     queryset = Comment.objects.all().filter(activity=pk)
     return queryset
