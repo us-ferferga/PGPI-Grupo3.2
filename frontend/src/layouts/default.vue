@@ -15,7 +15,7 @@
             TrainerBook
           </QToolbarTitle>
         </RouterLink>
-        <UserAvatar v-if="undefined" />
+        <UserAvatar v-if="$server.user" />
         <template v-else>
           <RouterLink
             v-slot="{ navigate }"

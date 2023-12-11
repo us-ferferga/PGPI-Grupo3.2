@@ -21,7 +21,6 @@
     ],
     "dependencies": {
         "@fontsource/jost": "5.0.16",
-        "@tanstack/vue-query": "5.13.4",
         "@unocss/reset": "0.58.0",
         "@vueuse/components": "10.7.0",
         "@vueuse/core": "10.7.0",
