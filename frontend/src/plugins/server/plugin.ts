@@ -13,7 +13,7 @@ export default function createRemote(): {
       /**
        * `server` is readonly but this is the one place it should actually be set
        */
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-unsafe-assignment
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       (app.config.globalProperties.$server as typeof serverInstance) =
         serverInstance;
     }
