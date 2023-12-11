@@ -93,7 +93,7 @@ class LoginView(APIView):
                 login(request, user)
 
                 # Generar o recuperar el token del usuario
-                token, created = Token.objects.get_or_create(user=user)
+                token = Token.objects.get_or_create(user=user)
 
                 return Response({'token': token.key}, status=status.HTTP_200_OK)
             else:
@@ -109,7 +109,7 @@ class LogoutView(APIView):
 
     @extend_schema(
         request=None,
-        responses={200: None}
+        responses={200: None, 304: None, 401: None}
     )
     def post(self, request):
         # Obtener el token asociado al usuario actual
@@ -117,7 +117,7 @@ class LogoutView(APIView):
             token = Token.objects.get(user=request.user)
         except Token.DoesNotExist:
             # Si el token no existe, la sesión ya se considera cerrada
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
 
         # Eliminar el token de autenticación
         token.delete()
