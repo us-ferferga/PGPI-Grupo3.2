@@ -20,7 +20,8 @@ module.exports = {
     'types/global/routes.d.ts',
     'types/global/components.d.ts',
     'dist',
-    'node_modules'
+    'node_modules',
+    'src/api'
   ],
   extends: [
     'eslint:recommended',
