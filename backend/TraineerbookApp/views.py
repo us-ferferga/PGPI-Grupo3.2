@@ -15,12 +15,44 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from TraineerbookApp.serializer import UserSerializer, LoginSerializer
 from rest_framework.permissions import IsAuthenticated 
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiResponse, inline_serializer
 from rest_framework.views import APIView
 
+"""
+MUY IMPORTANTE PARA EL FUNCIONAMIENTO DE SWAGGER Y LA CORRECTA COMUNICACIÓN CON EL FRONTEND
 
-## Documentación sobre los decoradores para swagger:
-## https://drf-spectacular.readthedocs.io/en/latest/customization.html
+Cada vista debe de tener un decorador como el siguiente (este ejemplo es bastante completo pero puede no cubrir todos los casos):
+@extend_schema(
+        # Este es el serializador de la petición que recibe el servidor
+        request=LoginSerializer,
+        responses={
+            # Aquí describimos la respuesta y los códigos. El inline_serializer es para serializar objetos simples, como es el caso del token de autenticacion
+            # Si por ejemplo estuviéramos mandando una actividad, esto debería de ser un ActivitySerializer
+            200: OpenApiResponse(response=inline_serializer(
+                    # Cualquiera sirve, simplemente es para identificarlo en la documentación
+                    name='TokenResponse',
+                    # Poniendo serializers. VSCode debe de sugerirnos todos los tipos de datos si tenemos la extensión de Python instalada (buscar ms-python.python en marketplace)
+                    fields={ 'token': serializers.StringRelatedField()}),
+                description="Token de autenticación"),
+            # None cuando no vamos a enviar nada más aparte del código de estado
+            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos"),
+            401: OpenApiResponse(response=None, description="Las credenciales son incorrectas")}
+)
+
+ - Las vistas RegisterUserView, LoginView y LogoutView son ejemplos de buenas implementaciones de controladores para las vistas, **recomendado usarlas de ejemplo** -
+
+Toda la documentación sobre el decorador: https://drf-spectacular.readthedocs.io/en/latest/customization.html
+
+Siempre que se cree un controlador o se haga cualquier cambio en entidades, debe arrancarse el servidor y
+accediendo a 127.0.0.1:8080/swagger/ para ver si se ha documentado correctamente.
+
+Para los errores, utilizar exclusivamente códigos HTTP *sin añadir ningún body* que tengan sentido con el problema en cuestión:
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+De esta forma en cliente podemos procesar los errores de forma programática y mostrar mensajes de error adecuados en base al estado actual.
+
+Al igual que con el inline_serializer, return Response(status=status...) se debe de autocompletar automáticamente
+en VSCode, por lo que no es necesario tener siempre la página de MDN abierta.
+"""
 
 """GET devuelve listado de productos al completo FUNCIONAL"""
 class getProductsApiViewSet(ModelViewSet):
@@ -53,7 +85,10 @@ class RegisterUserView(APIView):
 
     @extend_schema(
         request=UserSerializer,
-        responses={200: None , 400: None}
+        responses={
+            200: OpenApiResponse(response=None),
+            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos"),
+        }
     )
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -79,7 +114,13 @@ class LoginView(APIView):
 
     @extend_schema(
         request=LoginSerializer,
-        responses={200: None, 400: None}
+        responses={
+            200: OpenApiResponse(response=inline_serializer(
+                    name='TokenResponse',
+                    fields={ 'token': serializers.StringRelatedField() }),
+                description="Token de autenticación"),
+            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos"),
+            401: OpenApiResponse(response=None, description="Las credenciales son incorrectas")}
     )
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -97,7 +138,8 @@ class LoginView(APIView):
 
                 return Response({'token': token.key}, status=status.HTTP_200_OK)
             else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                # La contraseña es incorrecta o no existe el usuario
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -109,7 +151,10 @@ class LogoutView(APIView):
 
     @extend_schema(
         request=None,
-        responses={200: None, 304: None, 401: None}
+        responses={
+            200: OpenApiResponse(response=None),
+            304: OpenApiResponse(response=None, description="Django ha detectado un usuario, pero el token no existe, por lo que se considera que la sesión está cerrada"),
+            401: OpenApiResponse(response=None, description="El usuario no está autenticado")}
     )
     def post(self, request):
         # Obtener el token asociado al usuario actual
