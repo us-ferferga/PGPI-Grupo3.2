@@ -135,9 +135,9 @@ class LoginView(APIView):
                 login(request, user)
 
                 # Generar o recuperar el token del usuario
-                token = Token.objects.get_or_create(user=user)
+                token, created = Token.objects.get_or_create(user=user)
 
-                return Response({'token': token.key}, status=status.HTTP_200_OK)
+                return Response({'token': token.key }, status=status.HTTP_200_OK)
             else:
                 # La contraseña es incorrecta o no existe el usuario
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
@@ -169,3 +169,21 @@ class LogoutView(APIView):
         token.delete()
 
         return Response(status=status.HTTP_200_OK)
+    
+
+class CurrentUserView(APIView):
+    """
+    View to get information about the current user.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        request=None,
+        responses={
+            200: OpenApiResponse(response=UserSerializer),
+            401: OpenApiResponse(response=None, description="El usuario no está autenticado")}
+    )
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
