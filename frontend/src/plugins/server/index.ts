@@ -1,6 +1,11 @@
 /**
  * The 'server' plugin includes the tools needed to interact with the server:
  */
+import { useStorage } from '@vueuse/core';
+import axios, { AxiosError } from 'axios';
+import { Notify } from 'quasar';
+import { watch } from 'vue';
+import { mergeExcludingUnknown } from '@/utils/data-manipulation';
 import {
   ActivityApi,
   AuthApi,
@@ -8,11 +13,6 @@ import {
   ProductsApi,
   User
 } from '@/api';
-import { mergeExcludingUnknown } from '@/utils/data-manipulation';
-import { useStorage } from '@vueuse/core';
-import axios, { AxiosError } from 'axios';
-import { Notify } from 'quasar';
-import { watch } from 'vue';
 
 interface AuthState {
   token?: string;
@@ -61,6 +61,13 @@ class ServerPlugin {
     return this._state.value.user;
   }
 
+  private _dispatchError(message = 'Error desconocido'): void {
+    Notify.create({
+      message,
+      color: 'red'
+    });
+  }
+
   public async loginUser(username: string, password: string, rememberMe = true): Promise<void> {
     try {
       const { data } = await this._auth.authLoginCreate({ username, password });
@@ -68,18 +75,13 @@ class ServerPlugin {
       this._state.value.rememberMe = rememberMe;
 
       if (!data.token) {
+        // eslint-disable-next-line unicorn/error-message
         throw new Error();
       }
-    } catch (e) {
-      let message = 'Error desconocido';
-      if (isAxiosError(e) && e.response?.status === 401) {
-        message = 'Credenciales inválidas';
-      }
-  
-      Notify.create({
-        message,
-        color: 'red'
-      })
+
+      this._state.value.token = data.token;
+    } catch (error) {
+      this._dispatchError(isAxiosError(error) && error.response?.status === 401 ? 'Credenciales inválidas' : undefined);
     }
   }
 
@@ -93,15 +95,40 @@ class ServerPlugin {
 
   }
 
+  public async signUpUser(username: string, password: string, email: string, rememberMe = true): Promise<void> {
+    try {
+      await this._auth.authRegisterCreate({ username, password, email });
+      await this.loginUser(username, password, rememberMe);
+    } catch {
+      /**
+       * TODO: Comprobar aquí si ya existe un usuario con ese username o email.
+       */
+    }
+  }
+
+  private _clearState(): void {
+    delete this._axios.defaults.headers['Authorization'];
+    this._state.value.user = undefined;
+  }
+
   public constructor() {
     /**
      * Configure app's axios instance to perform requests to the server and clear itself when necessary.
      */
-    watch(() => this._state.value.token, () => {
+    watch(() => this._state.value.token, async () => {
       if (this._state.value.token) {
-        this._axios.defaults.headers['Authorization'] = `Token ${this._state.value.token}`;
+        try {
+          this._axios.defaults.headers['Authorization'] = `Token ${this._state.value.token}`;
+
+          const { data } = await this._auth.authMeRetrieve();
+
+          this._state.value.user = data;
+        } catch {
+          this._dispatchError();
+          this._clearState();
+        }
       } else {
-        delete this._axios.defaults.headers['Authorization'];
+        this._clearState();
       }
     });
   }

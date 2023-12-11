@@ -5,15 +5,14 @@
   </div>
   <div class="flex justify-center items-center flex-col flex-content-center flex-wrap">
     <QForm
-      @submit="() => {
-        $server.loginUser(username, password, rememberMe)
-      }">
+      @submit="submitForm">
       <QInput
         v-model="username"
         class="form-field"
         filled
         label="Nombre de usuario"
         lazy-rules
+        :disable="loading"
         :rules="[
           val => val && val.length > 0 || emptyMessage,
           val => !val.includes(' ') || 'No puede tener espacios'
@@ -25,6 +24,7 @@
         filled
         label="Contraseña"
         lazy-rules
+        :disable="loading"
         :rules="[
           val => val && val.length > 0 || emptyMessage
         ]" />
@@ -32,10 +32,12 @@
       <div class="flex justify-center items-center flex-col flex-content-center flex-wrap">
         <QCheckbox
           v-model="rememberMe"
+          :disable="loading"
           label="Mantener la sesión iniciada" />
         <QSeparator />
         <QBtn
           label="Iniciar sesión"
+          :disable="loading"
           type="submit"
           color="primary" />
       </div>
@@ -50,12 +52,32 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router/auto';
+import { useServer } from '@/composables';
 
 const username = ref('');
 const password = ref('');
 const rememberMe = ref(true);
+const loading = ref(false);
 
 const emptyMessage = 'Este campo no puede estar vacío';
+
+/**
+ * Procesa los datos del formulario
+ */
+async function submitForm(): Promise<void> {
+  try {
+    loading.value = true;
+
+    const server = useServer();
+    const router = useRouter();
+
+    await server.loginUser(username.value, password.value, rememberMe.value);
+    await router.replace('/');
+  } catch {} finally {
+    loading.value = false;
+  }
+}
 </script>
 
 <style scoped>
