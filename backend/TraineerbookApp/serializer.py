@@ -64,3 +64,8 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
+class IncidentSerializer(ModelSerializer):
+
+    class Meta:
+        model = Incident
+        fields = ['id', 'user', 'title', 'content']

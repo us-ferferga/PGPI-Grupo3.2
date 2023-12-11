@@ -33,4 +33,7 @@ urlpatterns = [
     path('auth/login/', views.LoginView.as_view(), name='login'),
     path('auth/logout/', views.LogoutView.as_view(), name='logout'),
     path('auth/me/', views.CurrentUserView.as_view(), name='current_user'),
+    path('incident/<int:pk>/', views.GetIncidentApiViewSet.as_view(), name='incident_id'),
+    path('incident/user', views.GetUserIncidentApiViewSet.as_view(), name='incident_user'),
+    path('incident/create', views.IncidentCreateApiViewSet.as_view(), name='incident_create'),
 ]
