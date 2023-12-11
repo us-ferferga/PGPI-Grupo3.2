@@ -19,15 +19,15 @@
         "defaults and supports es6-module"
     ],
     "dependencies": {
-        "@fontsource/jost": "5.0.15",
-        "@tanstack/vue-query": "5.12.2",
+        "@fontsource/jost": "5.0.16",
+        "@tanstack/vue-query": "5.13.4",
         "@unocss/reset": "0.58.0",
-        "@vueuse/components": "10.6.1",
-        "@vueuse/core": "10.6.1",
+        "@vueuse/components": "10.7.0",
+        "@vueuse/core": "10.7.0",
         "axios": "1.6.2",
         "lodash-es": "4.17.21",
         "quasar": "2.14.1",
-        "vue": "3.3.10",
+        "vue": "3.3.11",
         "vue-router": "4.2.5"
     },
     "devDependencies": {
