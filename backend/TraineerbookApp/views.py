@@ -59,13 +59,13 @@ en VSCode, por lo que no es necesario tener siempre la página de MDN abierta.
 class getProductsApiViewSet(ModelViewSet):
     http_method_names = ['get']
 
-    serializer_class = GetProductSerializer2
+    serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
 """GET devuelve listado de productos segun el id sea igual a la actividad del producto FUNCIONAL"""
 
 class getProductDetailApiViewSet(ModelViewSet):
-  serializer_class = GetProductSerializer2
+  serializer_class = ProductSerializer
   
   def get_queryset(self):
       
