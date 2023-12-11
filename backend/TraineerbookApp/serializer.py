@@ -3,10 +3,6 @@ from TraineerbookApp.models import *
 from rest_framework.serializers import ModelSerializer
 from TraineerbookApp.serializer import *
 
-class ActivitySerializer(ModelSerializer):
-    class Meta:
-        model = Activity
-        fields = '__all__'
 
 class TeacherSerializer(ModelSerializer):
     class Meta:
@@ -18,16 +14,21 @@ class ClassRoomSerializer(ModelSerializer):
         model = ClassRoom
         fields = '__all__'
 
-class GetProductSerializer(ModelSerializer):
+class ActivitySerializer(ModelSerializer):
+    teacher = TeacherSerializer()
+    class_space = ClassRoomSerializer()
+    
+    class Meta:
+        model = Activity
+        fields = '__all__'
+
+
+
+
+class ProductSerializer(ModelSerializer):
     activity = ActivitySerializer()
     teacher = TeacherSerializer(source='activity.teacher')
     class_space = ClassRoomSerializer(source='activity.class_space')
-
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-class GetProductSerializer2(ModelSerializer):
 
     class Meta:
         model = Product
