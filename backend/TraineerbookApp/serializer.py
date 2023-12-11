@@ -23,8 +23,6 @@ class ActivitySerializer(ModelSerializer):
         fields = '__all__'
 
 
-
-
 class ProductSerializer(ModelSerializer):
     activity = ActivitySerializer()
     teacher = TeacherSerializer(source='activity.teacher')
