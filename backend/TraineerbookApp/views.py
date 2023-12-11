@@ -1,10 +1,11 @@
+import datetime
 from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
 from TraineerbookApp.models import Activity, Product
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from TraineerbookApp.serializer import *
-
+from datetime import datetime as dt
 from rest_framework.views import APIView
 
 # Create your views here.
@@ -35,12 +36,41 @@ class getActivityApiViewSet(ModelViewSet):
     serializer_class = ActivitySerializer
     queryset = Activity.objects.all()
 
+# views.py
+from .models import Reservation
+
 class ShoppingCartGetView(APIView):
     def get(self, request):
         # Recupera y devuelve los productos en la cesta del usuario
         cart_products = request.session.get('cart_products', [])
         serializer = CartProductSerializer(cart_products, many=True)
-        return Response(serializer.data)
+
+        reservations = []
+        for item in cart_products:
+            product_id = item['product_id']
+            quantity = item['quantity']
+
+            # Aquí asumimos que ya has autenticado al usuario, y obtenemos el usuario actual
+            user = request.user if request.user.is_authenticated else None
+
+            # Método de pago predeterminado en caso de que no se proporcione
+            buy_method = 'online'
+
+            # Crea una reserva para cada producto en el carrito
+            reservation = Reservation.objects.create(
+                user=user,
+                product_id=product_id,
+                buy_date=datetime.datetime.now(),  # Utiliza la fecha y hora actual
+                buy_method=buy_method,
+            )
+            reservations.append(reservation)
+
+        # Limpia el carrito después de crear las reservas
+        request.session['cart_products'] = []
+
+        # Devuelve los productos del carrito y las reservas creadas
+        return Response({'cart_products': serializer.data, 'reservations': ReservationSerializer(reservations, many=True).data})
+
 
 class ShoppingCartPutView(APIView):
     def put(self, request, product_id):
@@ -83,3 +113,45 @@ class ShoppingCartDeleteView(APIView):
                 return Response(status=status.HTTP_200_OK)
 
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+class PaymentProcessView(APIView):
+    def post(self, request):
+        # Recupera y devuelve los productos en la cesta del usuario
+        cart_products = request.session.get('cart_products', [])
+
+        # Lógica para procesar el pago y obtener los productos comprados
+        # En este ejemplo, simplemente obtenemos la lista de productos del carrito
+        products_comprados = cart_products
+
+        # Crear reservas para los productos comprados
+        reservations = []
+        for item in products_comprados:
+            product_id = item['product_id']
+            quantity = item['quantity']
+
+            # Verifica si el producto existe
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+
+            # Crea una reserva para el producto comprado
+            reservation_data = {
+                'user': request.user,  # Ajusta esto según cómo manejes a los usuarios en tu aplicación
+                'product': product,
+                'quantity': quantity,
+                'buy_date': datetime.today(),  # O ajusta esto según sea necesario
+                'buy_method': 'online',  # Ajusta esto según tu lógica de compra
+            }
+            serializer = ReservationSerializer(data=reservation_data)
+            if serializer.is_valid():
+                serializer.save()
+                reservations.append(serializer.data)
+
+        # Limpia el carrito después de procesar el pago
+        del request.session['cart_products']
+
+        return Response({'reservations': reservations}, status=status.HTTP_201_CREATED)
+

@@ -30,7 +30,7 @@ class Product(models.Model):
 class Reservation(models.Model):
   user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='reservations',null=True)
   product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name='reservations', null=True)
-  buy_date = models.DateField(null=True, blank=True)
+  buy_date = models.DateTimeField(null=True, blank=True)
   buy_method = models.CharField(max_length=10, choices=PAY_METHOD) 
 
 class Comment(models.Model):

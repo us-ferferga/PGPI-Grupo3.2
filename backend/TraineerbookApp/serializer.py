@@ -41,5 +41,11 @@ class ShoppingCartSerializer(serializers.Serializer):
     product_id = serializers.IntegerField() 
     quantity = serializers.IntegerField(required=False, default=1)
 
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+
+
 
     
