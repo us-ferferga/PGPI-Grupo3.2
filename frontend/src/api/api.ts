@@ -412,6 +412,38 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * View to get information about the current user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authMeRetrieve: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/me/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication tokenAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @param {User} user 
          * @param {*} [options] Override http request option.
@@ -483,6 +515,17 @@ export const AuthApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
+         * View to get information about the current user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authMeRetrieve(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authMeRetrieve(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['AuthApi.authMeRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
          * 
          * @param {User} user 
          * @param {*} [options] Override http request option.
@@ -522,6 +565,14 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.authLogoutCreate(options).then((request) => request(axios, basePath));
         },
         /**
+         * View to get information about the current user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authMeRetrieve(options?: any): AxiosPromise<User> {
+            return localVarFp.authMeRetrieve(options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @param {User} user 
          * @param {*} [options] Override http request option.
@@ -559,6 +610,16 @@ export class AuthApi extends BaseAPI {
      */
     public authLogoutCreate(options?: AxiosRequestConfig) {
         return AuthApiFp(this.configuration).authLogoutCreate(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * View to get information about the current user.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public authMeRetrieve(options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authMeRetrieve(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
