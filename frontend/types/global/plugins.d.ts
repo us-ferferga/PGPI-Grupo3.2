@@ -1,6 +1,14 @@
+import type { serverInstance } from '@/plugins/server';
+
 interface RouteTransition {
   enter: string;
   leave?: string;
+}
+
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    readonly $server: typeof serverInstance;
+  }
 }
 
 declare module 'vue-router' {
@@ -16,4 +24,5 @@ declare module 'vue-router' {
  * https://www.typescriptlang.org/docs/handbook/modules.html
  */
 
-export {};
+export { };
+

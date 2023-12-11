@@ -4,31 +4,34 @@
  * https://caniuse.com/mdn-javascript_operators_await_top_level
  */
 
-import { createApp } from 'vue';
-import { Quasar } from 'quasar';
+import { Notify, Quasar } from 'quasar';
 import quasarLang from 'quasar/lang/es';
-import { VueQueryPlugin } from '@tanstack/vue-query';
+import { createApp } from 'vue';
 import Root from '@/App.vue';
 /* eslint-disable @typescript-eslint/no-restricted-imports */
 import quasarIconSet from '@/plugins/quasar/material-icons';
 import router from '@/plugins/router';
+import createServerPlugin from '@/plugins/server/plugin';
 /* eslint-enable @typescript-eslint/no-restricted-imports */
 
 /**
  * - GLOBAL STYLES -
  */
 import '@fontsource/jost';
+import '@unocss/reset/normalize.css';
+import '@unocss/reset/sanitize/assets.css';
+import '@unocss/reset/sanitize/sanitize.css';
 import 'quasar/dist/quasar.css';
 import 'virtual:uno.css';
-import '@unocss/reset/normalize.css';
-import '@unocss/reset/sanitize/sanitize.css';
-import '@unocss/reset/sanitize/assets.css';
 
 /* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */
 const app = createApp(Root);
 
 app.use(router);
 app.use(Quasar, {
+  plugins: {
+    Notify
+  },
   config: {
     brand: {
       primary: '#000000',
@@ -44,7 +47,7 @@ app.use(Quasar, {
   lang: quasarLang,
   iconSet: quasarIconSet
 });
-app.use(VueQueryPlugin);
+app.use(createServerPlugin());
 
 await router.isReady();
 app.mount('#app');

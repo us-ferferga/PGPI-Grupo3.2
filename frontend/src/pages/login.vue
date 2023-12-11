@@ -5,7 +5,9 @@
   </div>
   <div class="flex justify-center items-center flex-col flex-content-center flex-wrap">
     <QForm
-      @submit="() => {}">
+      @submit="() => {
+        $server.loginUser(username, password, rememberMe)
+      }">
       <QInput
         v-model="username"
         class="form-field"
