@@ -63,3 +63,17 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
+
+
+class GetCommentSerializer(ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'content']
+
+class CreateCommentSerializer(ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'activity', 'content']
+

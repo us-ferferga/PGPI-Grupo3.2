@@ -187,3 +187,47 @@ class CurrentUserView(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CreateComentView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        request=CreateCommentSerializer,
+        responses={
+            201: OpenApiResponse(response=None),
+            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos"),
+            401: OpenApiResponse(response=None, description="El usuario no esta autenticado")}
+    )
+    def post(self, request):
+         # Obtener datos de la solicitud
+        data = request.data.copy()
+
+        # Agregar el usuario actual al diccionario de datos
+        data['user'] = request.user.id  # Suponiendo que el usuario está autenticado
+
+        # Crear un nuevo serializador con los datos actualizados
+        serializer = CreateCommentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+#GET devuelve 
+
+class GetCommentListApiViewSet(ModelViewSet):
+   serializer_class = GetCommentSerializer
+   
+   @extend_schema(
+        request=GetCommentSerializer,
+        description="Pasandole el ID de la actividad, devuelve el lsitado de comentarios de esa actividad",
+        responses={
+            201: OpenApiResponse(response=GetCommentSerializer)}
+    )
+   def get_queryset(self):
+    pk = self.kwargs.get('pk')
+    queryset = Comment.objects.all().filter(activity=pk)
+    return queryset
+        

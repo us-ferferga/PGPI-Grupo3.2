@@ -33,4 +33,6 @@ urlpatterns = [
     path('auth/login/', views.LoginView.as_view(), name='login'),
     path('auth/logout/', views.LogoutView.as_view(), name='logout'),
     path('auth/me/', views.CurrentUserView.as_view(), name='current_user'),
+    path('comment/create/', views.CreateComentView.as_view(), name='create_comment'),
+    path('comment/<int:pk>/', views.GetCommentListApiViewSet.as_view({'get': 'list'}), name='comment_list'),
 ]
