@@ -53,7 +53,8 @@
             color="primary"
             label="Cerrar sesión"
             push
-            size="sm" />
+            size="sm"
+            @click="$server.logoutUser" />
         </QItem>
       </QList>
     </QMenu>

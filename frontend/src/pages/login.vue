@@ -38,6 +38,7 @@
         <QBtn
           label="Iniciar sesión"
           :disable="loading"
+          :loading="loading"
           type="submit"
           color="primary" />
       </div>
@@ -51,9 +52,12 @@
 </route>
 
 <script setup lang="ts">
+import { useServer } from '@/composables';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router/auto';
-import { useServer } from '@/composables';
+
+const server = useServer();
+const router = useRouter();
 
 const username = ref('');
 const password = ref('');
@@ -68,9 +72,6 @@ const emptyMessage = 'Este campo no puede estar vacío';
 async function submitForm(): Promise<void> {
   try {
     loading.value = true;
-
-    const server = useServer();
-    const router = useRouter();
 
     await server.loginUser(username.value, password.value, rememberMe.value);
     await router.replace('/');

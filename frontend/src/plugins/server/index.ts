@@ -1,11 +1,6 @@
 /**
  * The 'server' plugin includes the tools needed to interact with the server:
  */
-import { useStorage } from '@vueuse/core';
-import axios, { AxiosError } from 'axios';
-import { Notify } from 'quasar';
-import { watch } from 'vue';
-import { mergeExcludingUnknown } from '@/utils/data-manipulation';
 import {
   ActivityApi,
   AuthApi,
@@ -13,6 +8,11 @@ import {
   ProductsApi,
   User
 } from '@/api';
+import { mergeExcludingUnknown } from '@/utils/data-manipulation';
+import { useStorage } from '@vueuse/core';
+import axios, { AxiosError } from 'axios';
+import { Notify } from 'quasar';
+import { watch } from 'vue';
 
 interface AuthState {
   token?: string;
@@ -47,10 +47,11 @@ class ServerPlugin {
     /**
      * CAMBIAR SI ES NECESARIO
      */
-    baseURL: '127.0.0.1:8000',
+    baseURL: 'http://127.0.0.1:8000',
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Headers': '*'
     }
   });
   public readonly activity = new ActivityApi(this._apiConfiguration, '', this._axios);
@@ -61,14 +62,14 @@ class ServerPlugin {
     return this._state.value.user;
   }
 
-  private _dispatchError(message = 'Error desconocido'): void {
+  private _dispatchError = (message = 'Error desconocido'): void => {
     Notify.create({
       message,
       color: 'red'
     });
-  }
+  };
 
-  public async loginUser(username: string, password: string, rememberMe = true): Promise<void> {
+  public loginUser = async (username: string, password: string, rememberMe = true): Promise<void> => {
     try {
       const { data } = await this._auth.authLoginCreate({ username, password });
 
@@ -83,19 +84,17 @@ class ServerPlugin {
     } catch (error) {
       this._dispatchError(isAxiosError(error) && error.response?.status === 401 ? 'Credenciales inválidas' : undefined);
     }
-  }
+  };
 
-  public async logoutUser(): Promise<void> {
+  public logoutUser = async (): Promise<void> => {
     try {
       await this._auth.authLogoutCreate();
     } catch {} finally {
-      this._state.value.token = undefined;
-      this._state.value.user = undefined;
+      this._clearState();
     }
+  };
 
-  }
-
-  public async signUpUser(username: string, password: string, email: string, rememberMe = true): Promise<void> {
+  public signUpUser = async (username: string, password: string, email: string, rememberMe = true): Promise<void> => {
     try {
       await this._auth.authRegisterCreate({ username, password, email });
       await this.loginUser(username, password, rememberMe);
@@ -104,12 +103,13 @@ class ServerPlugin {
        * TODO: Comprobar aquí si ya existe un usuario con ese username o email.
        */
     }
-  }
+  };
 
-  private _clearState(): void {
-    delete this._axios.defaults.headers['Authorization'];
+  private _clearState = (): void => {
+    delete this._axios.defaults.headers.common.Authorization;
+    this._state.value.token = undefined;
     this._state.value.user = undefined;
-  }
+  };
 
   public constructor() {
     /**
@@ -118,7 +118,7 @@ class ServerPlugin {
     watch(() => this._state.value.token, async () => {
       if (this._state.value.token) {
         try {
-          this._axios.defaults.headers['Authorization'] = `Token ${this._state.value.token}`;
+          this._axios.defaults.headers.common.Authorization = `Token ${this._state.value.token}`;
 
           const { data } = await this._auth.authMeRetrieve();
 
