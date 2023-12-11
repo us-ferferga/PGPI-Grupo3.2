@@ -26,7 +26,8 @@ Cada vista debe de tener un decorador como el siguiente (este ejemplo es bastant
         # Este es el serializador de la petición que recibe el servidor
         request=LoginSerializer,
         responses={
-            # Aquí describimos la respuesta y los códigos. El inline_serializer es para serializar objetos simples, como es el caso del token de autenticacion
+            # Aquí describimos la respuesta y los códigos. El inline_serializer es para poder serializar rápidamente objetos muy simples,
+            # como es el caso del token de autenticación (así no tenemos que crear un serializador solo para eso)
             # Si por ejemplo estuviéramos mandando una actividad, esto debería de ser un ActivitySerializer
             200: OpenApiResponse(response=inline_serializer(
                     # Cualquiera sirve, simplemente es para identificarlo en la documentación
