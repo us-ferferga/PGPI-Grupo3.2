@@ -63,8 +63,6 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
-
-
 class GetCommentSerializer(ModelSerializer):
     user = UserSerializer()
     class Meta:
@@ -77,3 +75,8 @@ class CreateCommentSerializer(ModelSerializer):
         model = Comment
         fields = ['id', 'user', 'activity', 'content']
 
+class IncidentSerializer(ModelSerializer):
+
+    class Meta:
+        model = Incident
+        fields = ['id', 'user', 'title', 'content']

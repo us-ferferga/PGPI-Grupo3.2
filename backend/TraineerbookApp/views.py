@@ -231,3 +231,65 @@ class GetCommentListApiViewSet(ModelViewSet):
     queryset = Comment.objects.all().filter(activity=pk)
     return queryset
         
+
+#GET devuelve una incidencia por un id determinado de la incidencia FINALIZADO
+class GetIncidentApiViewSet(APIView):
+    serializer_class = IncidentSerializer
+
+    @extend_schema(
+        request=IncidentSerializer,
+        description="Pasandole el ID de una incidencia, devuelve la incidencia por el ID",
+        responses={
+            201: OpenApiResponse(response=IncidentSerializer)}
+    )
+
+    def get(self,request):
+      
+      pk = self.kwargs.get('pk')
+      queryset = Incident.objects.get(id=pk)
+      return queryset
+    
+
+#GET devuelve una incidencia por un id determinado de un user FINALIZADO
+class GetUserIncidentApiViewSet(APIView):
+
+    serializer_class = IncidentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        request=IncidentSerializer,
+        description="Pasandole el ID de la actividad, devuelve el listado de comentarios de esa actividad",
+        responses={
+            201: OpenApiResponse(response=IncidentSerializer),
+            401: OpenApiResponse(response=None, description="El usuario no esta autenticado")}
+    )
+
+    def get(self,request):
+      user = request.user
+      queryset = Incident.objects.all().filter(User=user)
+      return queryset
+
+    
+
+
+#POST añade una incidencia nueva
+class IncidentCreateApiViewSet(APIView):
+
+    @extend_schema(
+        request=IncidentSerializer,
+        description="Crea una incidencia, si el user esta registrado se guarda en user si no se queda como None",
+        responses={
+            201: OpenApiResponse(response=IncidentSerializer),
+            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos")}
+    )
+    
+    def post(self,request):
+        
+        user = request.user if request.user.is_authenticated else None
+        serializer = IncidentSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+       

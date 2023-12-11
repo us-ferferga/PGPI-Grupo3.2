@@ -35,4 +35,7 @@ urlpatterns = [
     path('auth/me/', views.CurrentUserView.as_view(), name='current_user'),
     path('comment/create/', views.CreateComentView.as_view(), name='create_comment'),
     path('comment/<int:pk>/', views.GetCommentListApiViewSet.as_view({'get': 'list'}), name='comment_list'),
+    path('incident/<int:pk>/', views.GetIncidentApiViewSet.as_view(), name='incident_id'),
+    path('incident/user', views.GetUserIncidentApiViewSet.as_view(), name='incident_user'),
+    path('incident/create', views.IncidentCreateApiViewSet.as_view(), name='incident_create'),
 ]
