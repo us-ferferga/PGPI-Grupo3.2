@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-c0y064h$u0z1nllb_0u*o$8!ta7c5flb#58$5v%ks-0_ea76jy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,9 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'TraineerbookApp',
-    'rest_framework_swagger',
-    'drf_yasg',
-    
+    'drf_yasg'
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -70,6 +68,7 @@ REST_FRAMEWORK = {
     ],
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
