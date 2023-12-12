@@ -13,21 +13,58 @@ class Command(BaseCommand):
         # Create ClassRooms
         class_room_1 = ClassRoom.objects.create(name='Class Room 1')
         class_room_2 = ClassRoom.objects.create(name='Class Room 2')
-
+        class_room_3 = ClassRoom.objects.create(name='Class Room 3')
+        class_room_4 = ClassRoom.objects.create(name='Class Room 4')
+        class_room_5 = ClassRoom.objects.create(name='Class Room 5')
+        class_room_6 = ClassRoom.objects.create(name='Class Room 6')
         # Create Teachers
         teacher_1 = Teacher.objects.create(name='Coach David')
         teacher_2 = Teacher.objects.create(name='Coach Carlos')
+        teacher_3 = Teacher.objects.create(name='Coach Fernando')
+        teacher_4 = Teacher.objects.create(name='Coach Juan Carlos')
+        teacher_5 = Teacher.objects.create(name='Coach Raul')
+
 
         # Create Activities
         activity_1 = Activity.objects.create(
-            image='assets\kettlebell-2052775_1280.jpg',
+            image='static\kettlebell-2052775_1280.jpg',
             name='Crossfit',
             teacher=teacher_1,
             class_space=class_room_1
         )
         activity_2 = Activity.objects.create(
-            image='assets\weightlifting-5730110_1280.jpg',
+            image='static\weightlifting-5730110_1280.jpg',
             name='Halterofilia',
+            teacher=teacher_2,
+            class_space=class_room_2
+        )
+        activity_3 = Activity.objects.create(
+            image='static\Bodypump.jpg',
+            name='Bodypump',
+            teacher=teacher_3,
+            class_space=class_room_3
+        )
+        activity_4 = Activity.objects.create(
+            image='static\entrenamiento-funcional.jpeg',
+            name='Entrenamiento funcional',
+            teacher=teacher_4,
+            class_space=class_room_4
+        )
+        activity_5 = Activity.objects.create(
+            image='static\Bnatacion.jpg',
+            name='Natacion',
+            teacher=teacher_5,
+            class_space=class_room_5
+        )
+        activity_6 = Activity.objects.create(
+            image='static\pilates.jpeg',
+            name='Pilates',
+            teacher=teacher_1,
+            class_space=class_room_6
+        )
+        activity_7 = Activity.objects.create(
+            image='static\street-workout-2628919_1280.jpg',
+            name='Calistenia',
             teacher=teacher_2,
             class_space=class_room_2
         )
@@ -48,23 +85,92 @@ class Command(BaseCommand):
             activity=activity_2
         )
 
+        product_3 = Product.objects.create(
+            product_hour_init=timezone.now(),
+            product_hour_fin=timezone.now() + timedelta(hours=1),
+            quantity=5,
+            price=30,
+            activity=activity_3
+        )
+        product_4 = Product.objects.create(
+            product_hour_init=timezone.now(),
+            product_hour_fin=timezone.now() + timedelta(hours=1),
+            quantity=5,
+            price=30,
+            activity=activity_4
+        )
+        product_5 = Product.objects.create(
+            product_hour_init=timezone.now(),
+            product_hour_fin=timezone.now() + timedelta(hours=1),
+            quantity=5,
+            price=30,
+            activity=activity_5
+        )
+        product_6 = Product.objects.create(
+            product_hour_init=timezone.now()+ timedelta(hours=1),
+            product_hour_fin=timezone.now() + timedelta(hours=2),
+            quantity=5,
+            price=30,
+            activity=activity_6
+        )
+        product_7 = Product.objects.create(
+            product_hour_init=timezone.now()+ timedelta(hours=1),
+            product_hour_fin=timezone.now() + timedelta(hours=2),
+            quantity=5,
+            price=30,
+            activity=activity_7
+        )
+
         # Create Users (if not already created)
         user_model = get_user_model()
         user_1, created = user_model.objects.get_or_create(username='user1', defaults={'password': 'password'})
         user_2, created = user_model.objects.get_or_create(username='user2', defaults={'password': 'password'})
+        user_3, created = user_model.objects.get_or_create(username='user3', defaults={'password': 'password'})
+        user_4, created = user_model.objects.get_or_create(username='user4', defaults={'password': 'password'})
+        user_5, created = user_model.objects.get_or_create(username='user5', defaults={'password': 'password'})
 
         # Create Reservations
         reservation_1 = Reservation.objects.create(
             user=user_1,
             product=product_1,
             buy_date=timezone.now().date(),
-            buy_method=PAY_METHOD[0][0]  # Assuming the first payment method is 'online'
+            buy_method=PAY_METHOD[0][0]  
         )
         reservation_2 = Reservation.objects.create(
             user=user_2,
             product=product_2,
             buy_date=timezone.now().date(),
-            buy_method=PAY_METHOD[1][0]  # Assuming the second payment method is 'payback'
+            buy_method=PAY_METHOD[1][0]  
+        )
+        reservation_3 = Reservation.objects.create(
+            user=user_3,
+            product=product_3,
+            buy_date=timezone.now().date(),
+            buy_method=PAY_METHOD[0][0]  
+        )
+        reservation_4 = Reservation.objects.create(
+            user=user_4,
+            product=product_4,
+            buy_date=timezone.now().date(),
+            buy_method=PAY_METHOD[0][0]  
+        )
+        reservation_5 = Reservation.objects.create(
+            user=user_5,
+            product=product_5,
+            buy_date=timezone.now().date(),
+            buy_method=PAY_METHOD[0][0]  
+        )
+        reservation_6 = Reservation.objects.create(
+            user=user_1,
+            product=product_6,
+            buy_date=timezone.now().date(),
+            buy_method=PAY_METHOD[0][0]  
+        )
+        reservation_7 = Reservation.objects.create(
+            user=user_2,
+            product=product_7,
+            buy_date=timezone.now().date(),
+            buy_method=PAY_METHOD[0][0]  
         )
 
         # Create Comments
@@ -77,6 +183,21 @@ class Command(BaseCommand):
             user=user_2,
             activity=activity_2,
             content='This is a comment about Activity 2.'
+        )
+        comment_3 = Comment.objects.create(
+            user=user_3,
+            activity=activity_3,
+            content='This is a comment about Activity 3.'
+        )
+        comment_4 = Comment.objects.create(
+            user=user_4,
+            activity=activity_4,
+            content='This is a comment about Activity 4.'
+        )
+        comment_5 = Comment.objects.create(
+            user=user_5,
+            activity=activity_5,
+            content='This is a comment about Activity 5.'
         )
 
         # Create Incidents
@@ -99,6 +220,18 @@ class Command(BaseCommand):
         billing_2 = Billing.objects.create(
             user=user_2,
             billing_address='Billing Address 2'
+        )
+        billing_3 = Billing.objects.create(
+            user=user_3,
+            billing_address='Billing Address 3'
+        )
+        billing_4 = Billing.objects.create(
+            user=user_4,
+            billing_address='Billing Address 4'
+        )
+        billing_5 = Billing.objects.create(
+            user=user_5,
+            billing_address='Billing Address 5'
         )
 
         self.stdout.write(self.style.SUCCESS('Successfully populated the database with sample data.'))
