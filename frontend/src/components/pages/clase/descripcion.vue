@@ -7,7 +7,7 @@
         class="my-card">
         <QCardSection>
           <div class="text-h2">
-            Nombre de la actividad
+            {{ name }}
           </div>
         </QCardSection>
 
@@ -19,11 +19,11 @@
         </QCardSection>
 
         <QCardSection>
-          Clase impartida por: Perro sanche
+          Clase impartida por: {{ teacher }}
         </QCardSection>
 
         <QCardSection>
-          Sala: Nombre de sala
+          Sala: {{ sala }}
         </QCardSection>
       </QCard>
     </div>
@@ -31,6 +31,21 @@
 </template>
 
 <script setup lang="ts">
+
+import {useRoute} from 'vue-router/auto';
+import { useServer } from '@/composables';
+
+const server = useServer();
+const route = useRoute();
+
+const activityID = route.params?.id;
+
+const activityResponse = await server.api.activity.activityProductsList(activityID);
+
+const activity = activityResponse.data[0];
+const name = activity.activity.name;
+const teacher = activity.activity.teacher.name;
+const sala = activity.class_space.name;
 
 </script>
 

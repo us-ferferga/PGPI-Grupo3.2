@@ -7,36 +7,22 @@
       <div class="col-6">
         <Imagen />
       </div>
-      <div class="row">
-        <ComprarYa style="margin-left: 50px;" />
-        <Carrito />
-        <QForm
-          class="q-gutter-md">
-          <QInput
-            v-model="text"
-            filled
-            type="textarea"
-            label="Deja un comentario"
-            style="width: 300px;" />
-          <div>
-            <QBtn
-              label="Submit"
-              type="submit"
-              color="primary" />
-          </div>
-        </QForm>
-      </div>
     </div>
     <Horario />
+    <div class="row">
+      <ComprarYa />
+      <Carrito />
+    </div>
+    <q-separator />
+    <h3 style="margin-left: 20px;">Comentarios</h3>
+    <div class="row">
+      <Comentarios></Comentarios>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import {useRoute} from 'vue-router/auto';
-
-const route = useRoute();
-console.log(route.params.id);
 
 
 const text = ref('');

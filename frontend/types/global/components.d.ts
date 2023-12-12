@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Carrito: typeof import('./../../src/components/pages/clase/carrito.vue')['default']
+    Comentarios: typeof import('./../../src/components/pages/clase/comentarios.vue')['default']
     ComprarYa: typeof import('./../../src/components/pages/clase/comprarYa.vue')['default']
     Descripcion: typeof import('./../../src/components/pages/clase/descripcion.vue')['default']
     FooterDatosEmpresa: typeof import('./../../src/components/pages/about/footerDatosEmpresa.vue')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     QBtn: typeof import('quasar')['QBtn']
     QCard: typeof import('quasar')['QCard']
     QCardSection: typeof import('quasar')['QCardSection']
+    QChatMessage: typeof import('quasar')['QChatMessage']
     QCheckbox: typeof import('quasar')['QCheckbox']
     QForm: typeof import('quasar')['QForm']
     QHeader: typeof import('quasar')['QHeader']

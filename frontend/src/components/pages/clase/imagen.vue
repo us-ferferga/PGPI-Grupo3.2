@@ -2,7 +2,7 @@
   <div class="q-pa-md q-gutter-sm">
     <div>
       <QImg
-        src="https://picsum.photos/500/300"
+        :src="imagen"
         :ratio="16/9"
         class="imagen" />
     </div>
@@ -10,7 +10,18 @@
 </template>
 
 <script setup lang="ts">
+import {useRoute} from 'vue-router/auto';
+import { useServer } from '@/composables';
 
+const server = useServer();
+const route = useRoute();
+
+const activityID = route.params?.id;
+
+const activityResponse = await server.api.activity.activityProductsList(activityID);
+
+const activity = activityResponse.data[0];
+const imagen = activity.activity.image;
 
 </script>
 
