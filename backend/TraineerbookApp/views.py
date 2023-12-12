@@ -188,6 +188,7 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+<<<<<<< HEAD
 class CreateComentView(APIView):
 
     permission_classes = [permissions.IsAuthenticated]
@@ -231,6 +232,8 @@ class GetCommentListApiViewSet(ModelViewSet):
     queryset = Comment.objects.all().filter(activity=pk)
     return queryset
         
+=======
+>>>>>>> dc532061156bffe820139c6da9847e516d4d2df9
 
 #GET devuelve una incidencia por un id determinado de la incidencia FINALIZADO
 class GetIncidentApiViewSet(APIView):
@@ -292,4 +295,5 @@ class IncidentCreateApiViewSet(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+       
        
