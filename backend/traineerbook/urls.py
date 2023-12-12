@@ -20,7 +20,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
@@ -36,3 +37,5 @@ urlpatterns = [
     path('comment/create/', views.CreateComentView.as_view(), name='create_comment'),
     path('comment/<int:pk>/', views.GetCommentListApiViewSet.as_view({'get': 'list'}), name='comment_list'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
