@@ -37,6 +37,18 @@ export interface Activity {
     'id'?: number;
     /**
      * 
+     * @type {Teacher}
+     * @memberof Activity
+     */
+    'teacher': Teacher;
+    /**
+     * 
+     * @type {ClassRoom}
+     * @memberof Activity
+     */
+    'class_space': ClassRoom;
+    /**
+     * 
      * @type {string}
      * @memberof Activity
      */
@@ -46,62 +58,82 @@ export interface Activity {
      * @type {string}
      * @memberof Activity
      */
-    'description': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Activity
-     */
-    'teacher': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Activity
-     */
-    'class_space': number;
+    'name': string;
 }
 /**
  * 
  * @export
- * @interface GetProductSerializer2
+ * @interface ClassRoom
  */
-export interface GetProductSerializer2 {
+export interface ClassRoom {
     /**
      * 
      * @type {number}
-     * @memberof GetProductSerializer2
+     * @memberof ClassRoom
      */
     'id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof GetProductSerializer2
+     * @memberof ClassRoom
      */
-    'product_hour_init'?: string | null;
+    'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateComment
+ */
+export interface CreateComment {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateComment
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateComment
+     */
+    'user'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateComment
+     */
+    'activity': number;
     /**
      * 
      * @type {string}
-     * @memberof GetProductSerializer2
+     * @memberof CreateComment
      */
-    'product_hour_fin'?: string | null;
+    'content': string;
+}
+/**
+ * 
+ * @export
+ * @interface GetComment
+ */
+export interface GetComment {
     /**
      * 
      * @type {number}
-     * @memberof GetProductSerializer2
+     * @memberof GetComment
      */
-    'quantity': number;
+    'id'?: number;
     /**
      * 
-     * @type {number}
-     * @memberof GetProductSerializer2
+     * @type {User}
+     * @memberof GetComment
      */
-    'price': number;
+    'user': User;
     /**
      * 
-     * @type {number}
-     * @memberof GetProductSerializer2
+     * @type {string}
+     * @memberof GetComment
      */
-    'activity': number;
+    'content': string;
 }
 /**
  * Serializer for user login.  Fields: - `username` (string): The username of the user. - `password` (string): The password of the user.
@@ -121,6 +153,80 @@ export interface Login {
      * @memberof Login
      */
     'password': string;
+}
+/**
+ * 
+ * @export
+ * @interface Product
+ */
+export interface Product {
+    /**
+     * 
+     * @type {number}
+     * @memberof Product
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {Activity}
+     * @memberof Product
+     */
+    'activity': Activity;
+    /**
+     * 
+     * @type {Teacher}
+     * @memberof Product
+     */
+    'teacher': Teacher;
+    /**
+     * 
+     * @type {ClassRoom}
+     * @memberof Product
+     */
+    'class_space': ClassRoom;
+    /**
+     * 
+     * @type {string}
+     * @memberof Product
+     */
+    'product_hour_init'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Product
+     */
+    'product_hour_fin'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Product
+     */
+    'quantity': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Product
+     */
+    'price': number;
+}
+/**
+ * 
+ * @export
+ * @interface Teacher
+ */
+export interface Teacher {
+    /**
+     * 
+     * @type {number}
+     * @memberof Teacher
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Teacher
+     */
+    'name': string;
 }
 /**
  * 
@@ -268,7 +374,7 @@ export const ActivityApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async activityProductsList(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GetProductSerializer2>>> {
+        async activityProductsList(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Product>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.activityProductsList(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ActivityApi.activityProductsList']?.[index]?.url;
@@ -298,7 +404,7 @@ export const ActivityApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityProductsList(id: number, options?: any): AxiosPromise<Array<GetProductSerializer2>> {
+        activityProductsList(id: number, options?: any): AxiosPromise<Array<Product>> {
             return localVarFp.activityProductsList(id, options).then((request) => request(axios, basePath));
         },
     };
@@ -637,6 +743,183 @@ export class AuthApi extends BaseAPI {
 
 
 /**
+ * CommentApi - axios parameter creator
+ * @export
+ */
+export const CommentApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateComment} createComment 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        commentCreateCreate: async (createComment: CreateComment, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createComment' is not null or undefined
+            assertParamExists('commentCreateCreate', 'createComment', createComment)
+            const localVarPath = `/comment/create/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication tokenAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createComment, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        commentList: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('commentList', 'id', id)
+            const localVarPath = `/comment/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication tokenAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CommentApi - functional programming interface
+ * @export
+ */
+export const CommentApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CommentApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateComment} createComment 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async commentCreateCreate(createComment: CreateComment, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.commentCreateCreate(createComment, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CommentApi.commentCreateCreate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async commentList(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GetComment>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.commentList(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CommentApi.commentList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CommentApi - factory interface
+ * @export
+ */
+export const CommentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CommentApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateComment} createComment 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        commentCreateCreate(createComment: CreateComment, options?: any): AxiosPromise<void> {
+            return localVarFp.commentCreateCreate(createComment, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        commentList(id: number, options?: any): AxiosPromise<Array<GetComment>> {
+            return localVarFp.commentList(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CommentApi - object-oriented interface
+ * @export
+ * @class CommentApi
+ * @extends {BaseAPI}
+ */
+export class CommentApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateComment} createComment 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CommentApi
+     */
+    public commentCreateCreate(createComment: CreateComment, options?: AxiosRequestConfig) {
+        return CommentApiFp(this.configuration).commentCreateCreate(createComment, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CommentApi
+     */
+    public commentList(id: number, options?: AxiosRequestConfig) {
+        return CommentApiFp(this.configuration).commentList(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * ProductsApi - axios parameter creator
  * @export
  */
@@ -689,7 +972,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async productsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GetProductSerializer2>>> {
+        async productsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Product>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.productsList(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ProductsApi.productsList']?.[index]?.url;
@@ -710,7 +993,7 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        productsList(options?: any): AxiosPromise<Array<GetProductSerializer2>> {
+        productsList(options?: any): AxiosPromise<Array<Product>> {
             return localVarFp.productsList(options).then((request) => request(axios, basePath));
         },
     };

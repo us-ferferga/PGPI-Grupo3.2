@@ -4,6 +4,7 @@
 import {
   ActivityApi,
   AuthApi,
+  CommentApi,
   Configuration,
   ProductsApi,
   User
@@ -54,8 +55,11 @@ class ServerPlugin {
       'Access-Control-Allow-Headers': '*'
     }
   });
-  public readonly activity = new ActivityApi(this._apiConfiguration, '', this._axios);
-  public readonly products = new ProductsApi(this._apiConfiguration, '', this._axios);
+  public readonly api = {
+    activity: new ActivityApi(this._apiConfiguration, '', this._axios),
+    products: new ProductsApi(this._apiConfiguration, '', this._axios),
+    comment: new CommentApi(this._apiConfiguration, '', this._axios)
+  };
   private readonly _auth = new AuthApi(this._apiConfiguration, '', this._axios);
 
   public get user(): User | undefined {

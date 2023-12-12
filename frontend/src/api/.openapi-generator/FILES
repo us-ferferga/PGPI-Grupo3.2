@@ -1,4 +1,3 @@
-.gitignore
 .npmignore
 api.ts
 base.ts
