@@ -1,7 +1,7 @@
 <template>
-  <swiper
-    :spaceBetween="30"
-    :centeredSlides="true"
+  <Swiper
+    :space-between="30"
+    :centered-slides="true"
     :autoplay="{
       delay: 3000,
       disableOnInteraction: false,
@@ -11,54 +11,53 @@
     }"
     :navigation="true"
     :modules="modules"
-    class="mySwiper"
-  >
-    <swiper-slide>
+    class="mySwiper">
+    <SwiperSlide>
       <QImg
         src="/gimnasio1.jpg"
         class="swiper-slide img" />
-    </swiper-slide>
-    <swiper-slide>
+    </SwiperSlide>
+    <SwiperSlide>
       <QImg
         src="/gimnasio2.jpg"
         class="swiper-slide img" />
-    </swiper-slide>
-    <swiper-slide>
+    </SwiperSlide>
+    <SwiperSlide>
       <QImg
         src="/gimnasio3.jpg"
         class="swiper-slide img" />
-    </swiper-slide>
-    <swiper-slide>
+    </SwiperSlide>
+    <SwiperSlide>
       <QImg
         src="/gimnasio4.jpg"
         class="swiper-slide img" />
-    </swiper-slide>
-  </swiper>
+    </SwiperSlide>
+  </Swiper>
 </template>
 <script>
-  // Import Swiper Vue.js components
-  import { Swiper, SwiperSlide } from 'swiper/vue';
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
-  // Import Swiper styles
-  import 'swiper/css';
+// Import Swiper styles
+import 'swiper/css';
 
-  import 'swiper/css/pagination';
-  import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-  // import required modules
-  import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+// Import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-  export default {
-    components: {
-      Swiper,
-      SwiperSlide,
-    },
-    setup() {
-      return {
-        modules: [Autoplay, Pagination, Navigation],
-      };
-    },
-  };
+export default {
+  components: {
+    Swiper,
+    SwiperSlide
+  },
+  setup() {
+    return {
+      modules: [Autoplay, Pagination, Navigation]
+    };
+  }
+};
 </script>
 
 <style scoped>

@@ -1,4 +1,5 @@
 <template>
+  <Escaparate />
   <h3 style="text-align: center;">
     ACTIVIDADES
   </h3>
