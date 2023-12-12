@@ -29,42 +29,49 @@ class Command(BaseCommand):
         activity_1 = Activity.objects.create(
             image='static\kettlebell-2052775_1280.jpg',
             name='Crossfit',
+            description='Técnica de entrenamiento que conecta movimientos de diferentes disciplinas, tales como la halterofilia, el entrenamiento metabólico o el gimnástico',
             teacher=teacher_1,
             class_space=class_room_1
         )
         activity_2 = Activity.objects.create(
             image='static\weightlifting-5730110_1280.jpg',
             name='Halterofilia',
+            description='La halterofilia es un deporte olímpico, también conocido como levantamiento de pesas, esta disciplina requiere de un gran entrenamiento de los músculos del cuerpo para adquirir la fuerza necesaria para los levantamientos, además de desarrollar destreza y actitud mental.',
             teacher=teacher_2,
             class_space=class_room_2
         )
         activity_3 = Activity.objects.create(
             image='static\Bodypump.jpg',
             name='Bodypump',
+            description='El Body Pump es un programa de entrenamiento físico intenso que combina actividad aeróbica y trabajo muscular mediante el levantamiento de pesas al ritmo de la música',
             teacher=teacher_3,
             class_space=class_room_3
         )
         activity_4 = Activity.objects.create(
             image='static\entrenamiento-funcional.jpeg',
             name='Entrenamiento funcional',
+            description='El entrenamiento funcional es un medio de entrenamiento basado en la realización de movimientos libres o con resistencias, en muchos casos en superficies inestables, que guardan relación con gestos comunes a la actividad deportiva que realicemos.',
             teacher=teacher_4,
             class_space=class_room_4
         )
         activity_5 = Activity.objects.create(
             image='static\Bnatacion.jpg',
             name='Natacion',
+            description='La natación es el arte de sostenerse y avanzar, usando los brazos y las piernas, sobre o bajo el agua. Puede realizarse como actividad lúdica o como deporte de competición. Debido a que los seres humanos no nadan instintivamente, la natación es una habilidad que debe ser aprendida.',
             teacher=teacher_5,
             class_space=class_room_5
         )
         activity_6 = Activity.objects.create(
             image='static\pilates.jpeg',
             name='Pilates',
+            description='Es un deporte en el que se trabajan el cuerpo y la mente, y cuyos objetivos principales son reforzar la musculatura (desde la más profunda a la más superficial), aumentar la fuerza y la flexibilidad del cuerpo y mejorar la capacidad de concentración.',
             teacher=teacher_1,
             class_space=class_room_6
         )
         activity_7 = Activity.objects.create(
             image='static\street-workout-2628919_1280.jpg',
             name='Calistenia',
+            description='La calistenia es un sistema de entrenamiento con ejercicios físicos que se realizan con el propio peso corporal',
             teacher=teacher_2,
             class_space=class_room_2
         )

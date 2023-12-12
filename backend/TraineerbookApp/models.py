@@ -17,6 +17,7 @@ class Teacher (models.Model):
 class Activity(models.Model):
   image = models.ImageField(upload_to='static', null=True, blank=False)
   name = models.TextField(blank=False)
+  description = models.TextField(blank=False,default='Descripcion de la actividad')
   teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE, related_name='activities')
   class_space = models.ForeignKey(ClassRoom,on_delete=models.CASCADE, related_name='activities')
 
