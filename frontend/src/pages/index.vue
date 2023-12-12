@@ -7,21 +7,27 @@
     style="margin: 2%;">
     <div class="q-col-gutter-md row items-start">
       <div
-        v-for="i in 12"
-        :key="i"
+        v-for="i in activities"
+        :key="i.id"
         class="col-4">
         <RouterLink
           v-slot="{ navigate }"
-          to="/clase"
+          :to="`/clase/${i.id}`"
           custom>
           <QImg
+            v-if="i.image"
             src="https://cdn.quasar.dev/img/parallax2.jpg"
             class="imagen animacion cursor-pointer"
             @click="navigate">
             <div class="absolute-full text-subtitle2 flex flex-center">
-              <h4>Actividad {{ i }}</h4>
+              <h4>{{ i.name }}</h4>
             </div>
           </QImg>
+          <div
+            v-else
+            class="absolute-full text-subtitle2 flex flex-center">
+            <h4>{{ i.name }}</h4>
+          </div>
         </RouterLink>
       </div>
     </div>
@@ -29,6 +35,9 @@
 </template>
 
 <script setup lang="ts">
+import { activities } from '@/composables/use-activities';
+
+console.log(activities.value);
 </script>
 
 <style scoped>

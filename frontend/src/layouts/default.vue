@@ -52,6 +52,9 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router/auto';
+import { useActivities } from '@/composables';
+
+await useActivities();
 
 const route = useRoute();
 </script>

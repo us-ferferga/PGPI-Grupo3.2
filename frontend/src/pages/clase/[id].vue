@@ -33,6 +33,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import {useRoute} from 'vue-router/auto';
+
+const route = useRoute();
+console.log(route.params.id);
+
 
 const text = ref('');
 </script>
