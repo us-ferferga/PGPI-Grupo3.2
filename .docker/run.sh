@@ -2,4 +2,6 @@
 
 echo "Starting TraineerBook.."
 echo ""
-exec python manage.py runserver 0.0.0.0:80
+service nginx start
+echo ""
+exec python manage.py runserver 127.0.0.1:8080

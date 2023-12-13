@@ -31,8 +31,9 @@ RUN mkdir -p /data \
     && rm -rf /bin/sh \
     && ln -s /bin/bash /bin/sh \
     && ln -s /data /app/backend/data \
-    && rm -rf .dockerenv \
-    && chmod +x /scripts/*.sh
+    && chmod +x /scripts/*.sh \
+    && /scripts/postunpack.sh \
+    && rm -rf .dockerenv /scripts/postunpack.sh
 
 WORKDIR /app/backend
 RUN pip install -r requirements.txt

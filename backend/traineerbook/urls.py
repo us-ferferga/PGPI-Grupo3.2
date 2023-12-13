@@ -23,9 +23,9 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('openapi.yaml', SpectacularAPIView.as_view(), name='schema'),
-    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api/doc/openapi.yaml', SpectacularAPIView.as_view(), name='schema'),
+    path('api/doc/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/doc/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
     path('api/activity/products/<int:pk>/', views.getProductDetailApiViewSet.as_view({'get': 'list'}), name="product-details"),
     path('api/activity/', views.getActivityApiViewSet.as_view({'get': 'list'}), name="activity-list"),
