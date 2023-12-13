@@ -43,6 +43,12 @@ export interface Activity {
     'teacher': Teacher;
     /**
      * 
+     * @type {BlobImage}
+     * @memberof Activity
+     */
+    'image': BlobImage;
+    /**
+     * 
      * @type {ClassRoom}
      * @memberof Activity
      */
@@ -52,13 +58,59 @@ export interface Activity {
      * @type {string}
      * @memberof Activity
      */
-    'image'?: string | null;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof Activity
      */
-    'name': string;
+    'description'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface BlobImage
+ */
+export interface BlobImage {
+    /**
+     * 
+     * @type {string}
+     * @memberof BlobImage
+     */
+    'data'?: string;
+}
+/**
+ * * `online` - Online Payment * `payback` - Payback
+ * @export
+ * @enum {string}
+ */
+
+export const BuyMethodEnum = {
+    Online: 'online',
+    Payback: 'payback'
+} as const;
+
+export type BuyMethodEnum = typeof BuyMethodEnum[keyof typeof BuyMethodEnum];
+
+
+/**
+ * 
+ * @export
+ * @interface CartProduct
+ */
+export interface CartProduct {
+    /**
+     * 
+     * @type {number}
+     * @memberof CartProduct
+     */
+    'product_id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CartProduct
+     */
+    'quantity': number;
 }
 /**
  * 
@@ -78,6 +130,31 @@ export interface ClassRoom {
      * @memberof ClassRoom
      */
     'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface Comment
+ */
+export interface Comment {
+    /**
+     * 
+     * @type {number}
+     * @memberof Comment
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {User}
+     * @memberof Comment
+     */
+    'user': User;
+    /**
+     * 
+     * @type {string}
+     * @memberof Comment
+     */
+    'content': string;
 }
 /**
  * 
@@ -107,31 +184,6 @@ export interface CreateComment {
      * 
      * @type {string}
      * @memberof CreateComment
-     */
-    'content': string;
-}
-/**
- * 
- * @export
- * @interface GetComment
- */
-export interface GetComment {
-    /**
-     * 
-     * @type {number}
-     * @memberof GetComment
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {User}
-     * @memberof GetComment
-     */
-    'user': User;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetComment
      */
     'content': string;
 }
@@ -168,12 +220,6 @@ export interface Product {
     'id'?: number;
     /**
      * 
-     * @type {Activity}
-     * @memberof Product
-     */
-    'activity': Activity;
-    /**
-     * 
      * @type {Teacher}
      * @memberof Product
      */
@@ -208,7 +254,52 @@ export interface Product {
      * @memberof Product
      */
     'price': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Product
+     */
+    'activity': number;
 }
+/**
+ * 
+ * @export
+ * @interface Reservation
+ */
+export interface Reservation {
+    /**
+     * 
+     * @type {number}
+     * @memberof Reservation
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reservation
+     */
+    'buy_date'?: string | null;
+    /**
+     * 
+     * @type {BuyMethodEnum}
+     * @memberof Reservation
+     */
+    'buy_method': BuyMethodEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof Reservation
+     */
+    'user'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Reservation
+     */
+    'product'?: number | null;
+}
+
+
 /**
  * 
  * @export
@@ -285,7 +376,7 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
          * @throws {RequiredError}
          */
         activityList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/activity/`;
+            const localVarPath = `/api/activity/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -320,7 +411,7 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
         activityProductsList: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('activityProductsList', 'id', id)
-            const localVarPath = `/activity/products/{id}/`
+            const localVarPath = `/api/activity/products/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -456,7 +547,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         authLoginCreate: async (login: Login, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'login' is not null or undefined
             assertParamExists('authLoginCreate', 'login', login)
-            const localVarPath = `/auth/login/`;
+            const localVarPath = `/api/auth/login/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -491,7 +582,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         authLogoutCreate: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/logout/`;
+            const localVarPath = `/api/auth/logout/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -523,7 +614,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         authMeRetrieve: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/me/`;
+            const localVarPath = `/api/auth/me/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -558,7 +649,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         authRegisterCreate: async (user: User, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'user' is not null or undefined
             assertParamExists('authRegisterCreate', 'user', user)
-            const localVarPath = `/auth/register/`;
+            const localVarPath = `/api/auth/register/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -743,6 +834,310 @@ export class AuthApi extends BaseAPI {
 
 
 /**
+ * CartApi - axios parameter creator
+ * @export
+ */
+export const CartApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Añade o actualiza la cantidad de un producto en la cesta del usuario
+         * @param {number} productId 
+         * @param {number} quantity 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartAddUpdate: async (productId: number, quantity: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'productId' is not null or undefined
+            assertParamExists('cartAddUpdate', 'productId', productId)
+            // verify required parameter 'quantity' is not null or undefined
+            assertParamExists('cartAddUpdate', 'quantity', quantity)
+            const localVarPath = `/api/cart/add/{product_id}/{quantity}/`
+                .replace(`{${"product_id"}}`, encodeURIComponent(String(productId)))
+                .replace(`{${"quantity"}}`, encodeURIComponent(String(quantity)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication tokenAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Realiza la compra de los productos en el carrito y elimina estos productos del carrito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartCheckoutCreate: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/cart/checkout/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication tokenAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Obtiene los productos en la cesta del usuario
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/cart/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication tokenAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Elimina un producto de la cesta del usuario
+         * @param {number} productId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartRemoveDestroy: async (productId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'productId' is not null or undefined
+            assertParamExists('cartRemoveDestroy', 'productId', productId)
+            const localVarPath = `/api/cart/remove/{product_id}/`
+                .replace(`{${"product_id"}}`, encodeURIComponent(String(productId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication tokenAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CartApi - functional programming interface
+ * @export
+ */
+export const CartApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CartApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Añade o actualiza la cantidad de un producto en la cesta del usuario
+         * @param {number} productId 
+         * @param {number} quantity 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cartAddUpdate(productId: number, quantity: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CartProduct>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cartAddUpdate(productId, quantity, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CartApi.cartAddUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Realiza la compra de los productos en el carrito y elimina estos productos del carrito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cartCheckoutCreate(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Reservation>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cartCheckoutCreate(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CartApi.cartCheckoutCreate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Obtiene los productos en la cesta del usuario
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cartList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CartProduct>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cartList(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CartApi.cartList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Elimina un producto de la cesta del usuario
+         * @param {number} productId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cartRemoveDestroy(productId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cartRemoveDestroy(productId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CartApi.cartRemoveDestroy']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CartApi - factory interface
+ * @export
+ */
+export const CartApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CartApiFp(configuration)
+    return {
+        /**
+         * Añade o actualiza la cantidad de un producto en la cesta del usuario
+         * @param {number} productId 
+         * @param {number} quantity 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartAddUpdate(productId: number, quantity: number, options?: any): AxiosPromise<CartProduct> {
+            return localVarFp.cartAddUpdate(productId, quantity, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Realiza la compra de los productos en el carrito y elimina estos productos del carrito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartCheckoutCreate(options?: any): AxiosPromise<Reservation> {
+            return localVarFp.cartCheckoutCreate(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Obtiene los productos en la cesta del usuario
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartList(options?: any): AxiosPromise<Array<CartProduct>> {
+            return localVarFp.cartList(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Elimina un producto de la cesta del usuario
+         * @param {number} productId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cartRemoveDestroy(productId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.cartRemoveDestroy(productId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CartApi - object-oriented interface
+ * @export
+ * @class CartApi
+ * @extends {BaseAPI}
+ */
+export class CartApi extends BaseAPI {
+    /**
+     * Añade o actualiza la cantidad de un producto en la cesta del usuario
+     * @param {number} productId 
+     * @param {number} quantity 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CartApi
+     */
+    public cartAddUpdate(productId: number, quantity: number, options?: AxiosRequestConfig) {
+        return CartApiFp(this.configuration).cartAddUpdate(productId, quantity, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Realiza la compra de los productos en el carrito y elimina estos productos del carrito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CartApi
+     */
+    public cartCheckoutCreate(options?: AxiosRequestConfig) {
+        return CartApiFp(this.configuration).cartCheckoutCreate(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Obtiene los productos en la cesta del usuario
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CartApi
+     */
+    public cartList(options?: AxiosRequestConfig) {
+        return CartApiFp(this.configuration).cartList(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Elimina un producto de la cesta del usuario
+     * @param {number} productId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CartApi
+     */
+    public cartRemoveDestroy(productId: number, options?: AxiosRequestConfig) {
+        return CartApiFp(this.configuration).cartRemoveDestroy(productId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * CommentApi - axios parameter creator
  * @export
  */
@@ -757,7 +1152,7 @@ export const CommentApiAxiosParamCreator = function (configuration?: Configurati
         commentCreateCreate: async (createComment: CreateComment, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'createComment' is not null or undefined
             assertParamExists('commentCreateCreate', 'createComment', createComment)
-            const localVarPath = `/comment/create/`;
+            const localVarPath = `/api/comment/create/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -795,7 +1190,7 @@ export const CommentApiAxiosParamCreator = function (configuration?: Configurati
         commentList: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('commentList', 'id', id)
-            const localVarPath = `/comment/{id}/`
+            const localVarPath = `/api/comment/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -850,7 +1245,7 @@ export const CommentApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async commentList(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GetComment>>> {
+        async commentList(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Comment>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.commentList(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CommentApi.commentList']?.[index]?.url;
@@ -881,7 +1276,7 @@ export const CommentApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        commentList(id: number, options?: any): AxiosPromise<Array<GetComment>> {
+        commentList(id: number, options?: any): AxiosPromise<Array<Comment>> {
             return localVarFp.commentList(id, options).then((request) => request(axios, basePath));
         },
     };
@@ -931,7 +1326,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @throws {RequiredError}
          */
         productsList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/products/`;
+            const localVarPath = `/api/products/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
