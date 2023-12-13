@@ -16,7 +16,7 @@
           custom>
           <QImg
             v-if="i.image"
-            src="https://cdn.quasar.dev/img/parallax2.jpg"
+            :src="i.image.data"
             class="imagen animacion cursor-pointer"
             @click="navigate">
             <div class="absolute-full text-subtitle2 flex flex-center">

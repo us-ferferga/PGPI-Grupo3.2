@@ -22,6 +22,7 @@
         v-model="password"
         class="form-field"
         filled
+        type="password"
         label="Contraseña"
         lazy-rules
         :disable="loading"
@@ -37,7 +38,6 @@
         <QSeparator />
         <QBtn
           label="Iniciar sesión"
-          :disable="loading"
           :loading="loading"
           type="submit"
           color="primary" />
@@ -74,7 +74,10 @@ async function submitForm(): Promise<void> {
     loading.value = true;
 
     await server.loginUser(username.value, password.value, rememberMe.value);
-    await router.replace('/');
+
+    if (server.user) {
+      await router.replace('/');
+    }
   } catch {} finally {
     loading.value = false;
   }
