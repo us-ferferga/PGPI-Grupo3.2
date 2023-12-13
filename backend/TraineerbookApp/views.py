@@ -92,11 +92,18 @@ class RegisterUserView(APIView):
         responses={
             200: OpenApiResponse(response=None),
             400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos"),
+            409: OpenApiResponse(response=None, description="El nombre de usuario ya existe")
         }
     )
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+            username = request.data.get('username')
+            
+            # Verificar si el nombre de usuario ya existe
+            if User.objects.filter(username=username).exists():
+                return Response({"error": "El nombre de usuario ya existe"}, status=status.HTTP_409_CONFLICT)
+
             # Crear el usuario y establecer la contraseña sin guardarlo inmediatamente
             user = serializer.save()
 
@@ -108,6 +115,11 @@ class RegisterUserView(APIView):
             login(request, user)
 
             return Response(status=status.HTTP_200_OK)
+
+        # Verificar específicamente si el error es debido al nombre de usuario duplicado
+        if 'username' in serializer.errors and 'Ya existe un usuario con este nombre.' in serializer.errors['username']:
+            return Response({"error": "El nombre de usuario ya existe"}, status=status.HTTP_409_CONFLICT)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
