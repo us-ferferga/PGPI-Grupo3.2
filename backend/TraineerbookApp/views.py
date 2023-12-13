@@ -14,9 +14,10 @@ from rest_framework.views import APIView
 from TraineerbookApp.serializer import UserSerializer, LoginSerializer
 from rest_framework.permissions import IsAuthenticated 
 from drf_spectacular.utils import extend_schema, OpenApiResponse, inline_serializer
-from drf_spectacular.types import OpenApiTypes
 from rest_framework.views import APIView
-from base64 import b64encode
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 """
 MUY IMPORTANTE PARA EL FUNCIONAMIENTO DE SWAGGER Y LA CORRECTA COMUNICACIÓN CON EL FRONTEND
@@ -238,7 +239,7 @@ class ShoppingCartGetView(APIView):
         request=None,
         responses={
             200: CartProductSerializer(many=True),
-            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos")}
+            400: OpenApiResponse(response=None, description="Error en la solicitud")}
     )
     def get(self, request):
         # Recupera y devuelve los productos en la cesta del usuario
@@ -329,8 +330,6 @@ class ShoppingCartPutView(APIView):
             # Si el serializer no es válido, devuelve los errores
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        
-
 class ShoppingCartDeleteView(APIView):
     @extend_schema(
         description="Elimina un producto de la cesta del usuario",
@@ -348,3 +347,85 @@ class ShoppingCartDeleteView(APIView):
                 return Response(status=status.HTTP_200_OK)
 
         return Response(status=status.HTTP_404_NOT_FOUND)
+class CheckoutView(APIView):
+    @extend_schema(
+        description="Realiza la compra de los productos en el carrito y elimina estos productos del carrito",
+        responses={201: ReservationSerializer, 400: OpenApiResponse(response=None, description="Error en la solicitud")}
+    )
+    def post(self, request):
+        # Obtén el usuario actual utilizando CurrentUserView
+        user_view = CurrentUserView()
+        user_data = user_view.get(request).data
+
+        # Obtén el correo electrónico de la solicitud
+        email = request.data.get('user_email', None)
+
+        # Si el usuario no está autenticado, verifica si se proporcionó un correo electrónico
+        if not user_data['id']:
+            if not email:
+                return Response({"detail": "Se requiere la dirección de correo electrónico para completar la compra."},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        # Obtén los productos en el carrito de la sesión
+        cart_products = request.session.get('cart_products', [])
+
+        # Verifica que haya productos en el carrito
+        if not cart_products:
+            return Response({"detail": "El carrito está vacío"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Crea una reserva para cada producto en el carrito
+        reservations = []
+        for item in cart_products:
+            try:
+                product = Product.objects.get(id=item['product_id'])
+                quantity = item['quantity']
+
+                # Ajusta la fecha de compra según tus necesidades
+                buy_date = product.product_hour_init.date() if product.product_hour_init else None
+
+                # Crea la reserva
+                reservation = Reservation.objects.create(
+                    user=User.objects.get(pk=user_data['id']),  # Corregido para pasar una instancia de User
+                    product=product,
+                    buy_date=buy_date,
+                    buy_method="online",  # Ajusta el método de compra según tus necesidades
+                )
+
+                self.send_confirmation_email(email, reservation, product)
+
+                # Agrega la reserva a la lista de reservas creadas
+                reservations.append(reservation)
+
+            except Product.DoesNotExist:
+                # Handle the case where the product no longer exists
+                pass
+
+        # Elimina los productos del carrito después de la compra
+        request.session['cart_products'] = []
+
+        # Serializa y devuelve las reservas creadas
+        serializer = ReservationSerializer(reservations, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def send_confirmation_email(self, user, reservation, product):
+        # Asunto del correo electrónico
+        subject = 'Confirmación de Compra'
+
+        # Si el usuario está autenticado, utiliza su dirección de correo electrónico
+        if user and 'id' in user:
+            to_email = user['email']
+        else:
+            # Si el usuario no está autenticado, solicita el correo electrónico manualmente
+            to_email = user  # Cambiado a user en lugar de input("Por favor, ingrese su dirección de correo electrónico: ")
+
+        # Cuerpo del correo electrónico en formato HTML
+        html_message = render_to_string('email/confirmation_email.html', {'reservation': reservation, 'product': product})
+
+        # Cuerpo del correo electrónico en formato de texto sin formato
+        plain_message = strip_tags(html_message)
+
+        # Dirección de correo electrónico desde el cual se enviará el correo
+        from_email = 'djangorestpgpi@outlook.com'  # Cambia esto al correo desde el cual enviarás los correos
+
+        # Envía el correo electrónico
+        send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
