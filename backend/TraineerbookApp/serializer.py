@@ -27,14 +27,13 @@ class ClassRoomSerializer(ModelSerializer):
         model = ClassRoom
         fields = '__all__'
 
-class ActivitySerializer(ModelSerializer):
-    teacher = TeacherSerializer()
-    image = BlobImageSerializer()
+class ActivitySerializer(serializers.ModelSerializer):
     class_space = ClassRoomSerializer()
-    
+    teacher = TeacherSerializer()
+
     class Meta:
         model = Activity
-        fields = '__all__'
+        fields = ('id', 'name', 'description', 'teacher', 'class_space')
 
 class ProductSerializer(serializers.ModelSerializer):
     activity = ActivitySerializer()
@@ -42,7 +41,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'product_hour_init', 'product_hour_fin', 'quantity', 'price', 'activity')
-
+        
 class CartProductSerializer(serializers.Serializer):
     product_id = serializers.IntegerField(required = True)
     quantity = serializers.IntegerField(required = True)

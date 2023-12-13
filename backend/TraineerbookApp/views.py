@@ -19,6 +19,13 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from drf_spectacular.utils import OpenApiParameter
+from rest_framework import generics
+from drf_spectacular.utils import OpenApiParameter
+from rest_framework import generics
+from drf_spectacular.utils import OpenApiParameter
+from rest_framework import generics
+from drf_spectacular.utils import OpenApiParameter
+from rest_framework import generics
 
 """
 MUY IMPORTANTE PARA EL FUNCIONAMIENTO DE SWAGGER Y LA CORRECTA COMUNICACIÓN CON EL FRONTEND
@@ -66,22 +73,16 @@ class getProductsApiViewSet(ModelViewSet):
 
 """GET devuelve listado de productos segun el id sea igual a la actividad del producto FUNCIONAL"""
 
-class ProductDetailAPIView(APIView):
-    queryset = Product.objects.all()
+class ProductListAPIView(generics.ListAPIView):
     serializer_class = ProductSerializer
 
     @extend_schema(
-        responses={status.HTTP_200_OK: ProductSerializer},
-        description="Obtiene detalles de un producto por su ID de actividad."
+        description="Obtiene un listado de productos según el ID de la actividad del producto."
     )
-    def get(self, request, pk):
-        try:
-            product = Product.objects.get(activity=pk)
-            serializer = ProductSerializer(product)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Product.DoesNotExist:
-            return Response({"detail": "Producto no encontrado"}, status=status.HTTP_404_NOT_FOUND)
-
+    def get_queryset(self):
+        activity_id = self.kwargs.get('activity_id')
+        return Product.objects.filter(activity__id=activity_id)
+      
 """GET devuelve listado de actividades al completo FUNCIONAL"""
 class getActivityApiViewSet(ModelViewSet):
     http_method_names = ['get']
