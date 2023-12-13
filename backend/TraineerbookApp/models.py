@@ -41,7 +41,7 @@ class Comment(models.Model):
 
 class Incident(models.Model):
   user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='incidents',null=True)
-  reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='incidents')
+  title = models.TextField(blank=False)
   content = models.TextField(blank=False)
 
 class Billing(models.Model):
