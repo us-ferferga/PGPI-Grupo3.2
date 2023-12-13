@@ -7,12 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Carrito: typeof import('./../../src/components/pages/clase/carrito.vue')['default']
+    CarritoHeader: typeof import('./../../src/components/layout/CarritoHeader.vue')['default']
     ComentariosActividad: typeof import('./../../src/components/pages/clase/ComentariosActividad.vue')['default']
-    ComprarYa: typeof import('./../../src/components/pages/clase/comprarYa.vue')['default']
     DescripcionActividad: typeof import('./../../src/components/pages/clase/DescripcionActividad.vue')['default']
     FooterDatosEmpresa: typeof import('./../../src/components/pages/about/footerDatosEmpresa.vue')['default']
-    HorarioActividad: typeof import('./../../src/components/pages/clase/HorarioActividad.vue')['default']
     IFluentPerson28Filled: typeof import('~icons/fluent/person28-filled')['default']
     ImagenActividad: typeof import('./../../src/components/pages/clase/ImagenActividad.vue')['default']
     ImagenDatosEmpresa: typeof import('./../../src/components/pages/about/imagenDatosEmpresa.vue')['default']
@@ -21,6 +19,7 @@ declare module 'vue' {
     IMdiPhone: typeof import('~icons/mdi/phone')['default']
     PageView: typeof import('./../../src/components/View/PageView.vue')['default']
     QAvatar: typeof import('quasar')['QAvatar']
+    QBadge: typeof import('quasar')['QBadge']
     QBtn: typeof import('quasar')['QBtn']
     QCard: typeof import('quasar')['QCard']
     QCardSection: typeof import('quasar')['QCardSection']
@@ -45,7 +44,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SuspenseView: typeof import('./../../src/components/View/SuspenseView.vue')['default']
-    Tabla: typeof import('./../../src/components/pages/clase/tabla.vue')['default']
     TablaActividad: typeof import('./../../src/components/pages/clase/TablaActividad.vue')['default']
     Texto: typeof import('./../../src/components/pages/about/texto.vue')['default']
     TransitionView: typeof import('./../../src/components/View/TransitionView.vue')['default']

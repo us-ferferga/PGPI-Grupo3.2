@@ -104,10 +104,8 @@ class ServerPlugin {
     try {
       await this._auth.authRegisterCreate({ username, password, email });
       await this.loginUser(username, password, rememberMe);
-    } catch {
-      /**
-       * TODO: Comprobar aquí si ya existe un usuario con ese username o email.
-       */
+    } catch (error) {
+      this._dispatchError(isAxiosError(error) && error.response?.status === 409 ? 'El usuario ya existe' : undefined);
     }
   };
 

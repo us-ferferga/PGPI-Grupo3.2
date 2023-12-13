@@ -1,2 +1,4 @@
+export { useActivities } from './use-activities';
+export { useCart } from './use-cart';
 export { useServer } from './use-server';
-export {useActivities} from './use-activities';
+
