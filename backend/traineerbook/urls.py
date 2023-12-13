@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/doc/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/doc/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
-    path('api/activity/products/<int:pk>/', views.getProductDetailApiViewSet.as_view({'get': 'list'}), name="product-details"),
+    path('api/activity/products/<int:pk>/', views.ProductDetailAPIView.as_view(), name="product-details"),
     path('api/activity/', views.getActivityApiViewSet.as_view({'get': 'list'}), name="activity-list"),
     path('api/auth/register/', views.RegisterUserView.as_view(), name='register'),
     path('api/auth/login/', views.LoginView.as_view(), name='login'),
@@ -38,5 +38,8 @@ urlpatterns = [
     path('api/cart/', views.ShoppingCartGetView.as_view(), name='get_cart'),
     path('api/cart/add/<int:product_id>/<int:quantity>/', views.ShoppingCartPutView.as_view(), name='add_to_cart'),
     path('api/cart/remove/<int:product_id>/', views.ShoppingCartDeleteView.as_view(), name='remove_from_cart'),
-    path('api/cart/checkout/',views.CheckoutView.as_view(), name= 'checkout')
+    path('api/cart/checkout/',views.CheckoutView.as_view(), name= 'checkout'),
+    path('incident/<int:pk>/', views.GetIncidentApiViewSet.as_view(), name='get_incident'),
+    path('user/incident/', views.GetUserIncidentApiViewSet.as_view(), name='get_user_incidents'),
+    path('incident/create/', views.IncidentCreateApiViewSet.as_view(), name='create_incident'),
 ]
