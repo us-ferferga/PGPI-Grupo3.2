@@ -20,12 +20,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from drf_spectacular.utils import OpenApiParameter
 from rest_framework import generics
-from drf_spectacular.utils import OpenApiParameter
-from rest_framework import generics
-from drf_spectacular.utils import OpenApiParameter
-from rest_framework import generics
-from drf_spectacular.utils import OpenApiParameter
-from rest_framework import generics
 
 """
 MUY IMPORTANTE PARA EL FUNCIONAMIENTO DE SWAGGER Y LA CORRECTA COMUNICACIÓN CON EL FRONTEND

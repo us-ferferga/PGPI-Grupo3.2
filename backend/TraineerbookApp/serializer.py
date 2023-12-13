@@ -29,11 +29,12 @@ class ClassRoomSerializer(ModelSerializer):
 
 class ActivitySerializer(serializers.ModelSerializer):
     class_space = ClassRoomSerializer()
+    image = BlobImageSerializer()
     teacher = TeacherSerializer()
 
     class Meta:
         model = Activity
-        fields = ('id', 'name', 'description', 'teacher', 'class_space')
+        fields = ('id', 'name', 'description', 'teacher', 'class_space', 'image')
 
 class ProductSerializer(serializers.ModelSerializer):
     activity = ActivitySerializer()
