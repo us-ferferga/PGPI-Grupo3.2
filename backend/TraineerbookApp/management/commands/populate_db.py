@@ -1,10 +1,8 @@
 from django.core.management.base import BaseCommand
-from django.utils.crypto import get_random_string
 from django.utils import timezone
 from datetime import timedelta
-from TraineerbookApp.models import ClassRoom, Teacher, Activity, Product, Reservation, Comment, Incident, PAY_METHOD, Billing
+from TraineerbookApp.models import BlobImage, ClassRoom, Teacher, Activity, Product, Reservation, Comment, Incident, PAY_METHOD, Billing
 from django.contrib.auth import get_user_model
-from django.core.files import File
 
 class Command(BaseCommand):
     help = 'Populate the database with sample data'
@@ -24,52 +22,66 @@ class Command(BaseCommand):
         teacher_4 = Teacher.objects.create(name='Coach Juan Carlos')
         teacher_5 = Teacher.objects.create(name='Coach Raul')
 
+        image_activity_1 = BlobImage.objects.create()
+        image_activity_1.save_image('../assets/sample_data/images/kettlebell-2052775_1280.jpg')
+        image_activity_2 = BlobImage.objects.create()
+        image_activity_2.save_image('../assets/sample_data/images/weightlifting-5730110_1280.jpg')
+        image_activity_3 = BlobImage.objects.create()
+        image_activity_3.save_image('../assets/sample_data/images/Bodypump.jpg')
+        image_activity_4 = BlobImage.objects.create()
+        image_activity_4.save_image('../assets/sample_data/images/entrenamiento-funcional.jpeg')
+        image_activity_5 = BlobImage.objects.create()
+        image_activity_5.save_image('../assets/sample_data/images/Bnatacion.jpg')
+        image_activity_6 = BlobImage.objects.create()
+        image_activity_6.save_image('../assets/sample_data/images/pilates.jpeg')
+        image_activity_7 = BlobImage.objects.create()
+        image_activity_7.save_image('../assets/sample_data/images/street-workout-2628919_1280.jpg')
 
         # Create Activities
         activity_1 = Activity.objects.create(
-            image='assets/kettlebell-2052775_1280.jpg',
+            image=image_activity_1,
             name='Crossfit',
             description='Técnica de entrenamiento que conecta movimientos de diferentes disciplinas, tales como la halterofilia, el entrenamiento metabólico o el gimnástico',
             teacher=teacher_1,
             class_space=class_room_1
         )
         activity_2 = Activity.objects.create(
-            image='assets/weightlifting-5730110_1280.jpg',
+            image=image_activity_2,
             name='Halterofilia',
             description='La halterofilia es un deporte olímpico, también conocido como levantamiento de pesas, esta disciplina requiere de un gran entrenamiento de los músculos del cuerpo para adquirir la fuerza necesaria para los levantamientos, además de desarrollar destreza y actitud mental.',
             teacher=teacher_2,
             class_space=class_room_2
         )
         activity_3 = Activity.objects.create(
-            image='static/Bodypump.jpg',
+            image=image_activity_3,
             name='Bodypump',
             description='El Body Pump es un programa de entrenamiento físico intenso que combina actividad aeróbica y trabajo muscular mediante el levantamiento de pesas al ritmo de la música',
             teacher=teacher_3,
             class_space=class_room_3
         )
         activity_4 = Activity.objects.create(
-            image='static/entrenamiento-funcional.jpeg',
+            image=image_activity_4,
             name='Entrenamiento funcional',
             description='El entrenamiento funcional es un medio de entrenamiento basado en la realización de movimientos libres o con resistencias, en muchos casos en superficies inestables, que guardan relación con gestos comunes a la actividad deportiva que realicemos.',
             teacher=teacher_4,
             class_space=class_room_4
         )
         activity_5 = Activity.objects.create(
-            image='static/Bnatacion.jpg',
+            image=image_activity_5,
             name='Natacion',
             description='La natación es el arte de sostenerse y avanzar, usando los brazos y las piernas, sobre o bajo el agua. Puede realizarse como actividad lúdica o como deporte de competición. Debido a que los seres humanos no nadan instintivamente, la natación es una habilidad que debe ser aprendida.',
             teacher=teacher_5,
             class_space=class_room_5
         )
         activity_6 = Activity.objects.create(
-            image='static/pilates.jpeg',
+            image=image_activity_6,
             name='Pilates',
             description='Es un deporte en el que se trabajan el cuerpo y la mente, y cuyos objetivos principales son reforzar la musculatura (desde la más profunda a la más superficial), aumentar la fuerza y la flexibilidad del cuerpo y mejorar la capacidad de concentración.',
             teacher=teacher_1,
             class_space=class_room_6
         )
         activity_7 = Activity.objects.create(
-            image='static/street-workout-2628919_1280.jpg',
+            image=image_activity_7,
             name='Calistenia',
             description='La calistenia es un sistema de entrenamiento con ejercicios físicos que se realizan con el propio peso corporal',
             teacher=teacher_2,

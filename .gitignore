@@ -246,3 +246,4 @@ cython_debug/
 
 frontend/openapi.json
 frontend/openapi.yaml
+backend/data/

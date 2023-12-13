@@ -1,11 +1,9 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from TraineerbookApp.models import Activity, Product
 from rest_framework.viewsets import ModelViewSet
 from TraineerbookApp.serializer import *
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate, login, logout
-from rest_framework.authentication import TokenAuthentication
+from django.contrib.auth import authenticate, login
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -16,7 +14,9 @@ from rest_framework.views import APIView
 from TraineerbookApp.serializer import UserSerializer, LoginSerializer
 from rest_framework.permissions import IsAuthenticated 
 from drf_spectacular.utils import extend_schema, OpenApiResponse, inline_serializer
+from drf_spectacular.types import OpenApiTypes
 from rest_framework.views import APIView
+from base64 import b64encode
 
 """
 MUY IMPORTANTE PARA EL FUNCIONAMIENTO DE SWAGGER Y LA CORRECTA COMUNICACIÓN CON EL FRONTEND
@@ -218,19 +218,18 @@ class CreateComentView(APIView):
 #GET devuelve 
 
 class GetCommentListApiViewSet(ModelViewSet):
-   serializer_class = GetCommentSerializer
+   serializer_class = CommentSerializer
    
    @extend_schema(
-        request=GetCommentSerializer,
-        description="Pasandole el ID de la actividad, devuelve el lsitado de comentarios de esa actividad",
+        request=CommentSerializer,
+        description="Pasandole el ID de la actividad, devuelve el listado de comentarios de esa actividad",
         responses={
-            201: OpenApiResponse(response=GetCommentSerializer)}
+            201: OpenApiResponse(response=CommentSerializer)}
     )
    def get_queryset(self):
     pk = self.kwargs.get('pk')
     queryset = Comment.objects.all().filter(activity=pk)
     return queryset
-   
 
 class ShoppingCartGetView(APIView):
 
@@ -349,8 +348,3 @@ class ShoppingCartDeleteView(APIView):
                 return Response(status=status.HTTP_200_OK)
 
         return Response(status=status.HTTP_404_NOT_FOUND)
-                
-
-
-            
-        
