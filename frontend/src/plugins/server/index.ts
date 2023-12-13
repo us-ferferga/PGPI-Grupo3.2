@@ -32,9 +32,7 @@ class ServerPlugin {
   private _defaultState: AuthState = {
     token: undefined,
     user: undefined,
-    rememberMe: false
-  };
-  private _state = useStorage(
+    rememberMe: false }; private _state = useStorage(
     'auth',
     structuredClone(this._defaultState),
     localStorage,
@@ -48,7 +46,7 @@ class ServerPlugin {
     /**
      * CAMBIAR SI ES NECESARIO
      */
-    baseURL: 'http://127.0.0.1:8000',
+    baseURL: import.meta.env.MODE === 'development' ? 'http://192.168.0.24:8000' : undefined,
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
