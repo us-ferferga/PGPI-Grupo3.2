@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmación de Compra</title>
+</head>
+<body>
+    <h1>Confirmación de Compra</h1>
+    <p>Gracias por tu compra. Aquí están los detalles:</p>
+    
+    <p>Producto: {{ product.name }}</p>
+    <p>Importe:{{ reservation.product.price|floatformat:2|default:0 }} * {{ reservation.product.quantity|default:0 }} Euros</p>
+    <p>Dirección de entrega: {{ product.delivery_address }}</p>
+
+    <p>¡Gracias por elegir nuestro servicio!</p>
+</body>
+</html>
