@@ -1,16 +1,13 @@
 {
   "name": "Trainer-Book Codespace",
-  "image": "node:20-slim",
+  "image": "python:latest",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "dockerDashComposeVersion": "v2"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {},
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "latest",
-      "optimize": true
-    },
+    "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers-contrib/features/apt-packages:1": {
       "preserve_apt_list": false,
       "packages": ["openjdk-17-jre"]
@@ -24,9 +21,8 @@
     }
   },
   "postCreateCommand": {
-    "npm": "cd frontend && npm ci --no-audit",
+    "npm": "npm ci -w frontend --no-audit",
     "pip": "pip install -r backend/requirements.txt",
-    "clear-yarn": "unset YARN_VERSION && rm -rf /opt/yarn*",
     "use-bash": "rm -rf /bin/sh && ln -s /bin/bash /bin/sh",
     "git-editor": "git config --global core.editor 'code --wait'",
     "git-template": "git config commit.template .gitmessage"
