@@ -139,6 +139,13 @@ class Command(BaseCommand):
             price=30,
             activity=activity_7
         )
+        product_8 = Product.objects.create(
+            product_hour_init=timezone.now()+ timedelta(hours=1),
+            product_hour_fin=timezone.now() + timedelta(hours=2),
+            quantity=5,
+            price=30,
+            activity=activity_1
+        )
 
         # Create Users (if not already created)
         user_model = get_user_model()
