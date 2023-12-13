@@ -32,6 +32,8 @@
       </div>
     </div>
   </div>
+  <ImagenDatosEmpresa />
+  <FooterDatosEmpresa />
 </template>
 
 <script setup lang="ts">

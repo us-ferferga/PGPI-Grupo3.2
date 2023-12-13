@@ -15,6 +15,7 @@
             TrainerBook
           </QToolbarTitle>
         </RouterLink>
+        <CarritoHeader v-if="$server.user" />
         <UserAvatar v-if="$server.user" />
         <template v-else>
           <RouterLink
@@ -51,8 +52,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router/auto';
 import { useActivities } from '@/composables';
+import { useRoute } from 'vue-router/auto';
 
 await useActivities();
 

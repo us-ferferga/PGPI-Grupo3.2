@@ -15,11 +15,7 @@
       <h2 style="display: flex;align-items: center;  justify-content: center;">
         Horario
       </h2>
-      <TablaActividad :products="[]" />
-    </div>
-    <div class="row">
-      <ComprarYa />
-      <Carrito />
+      <TablaActividad :products="products" />
     </div>
     <QSeparator />
     <h3 style="margin-left: 20px;">
@@ -52,10 +48,10 @@ const activity = computed(() => activities.value.find(i => i.id === Number(id.va
 async function fetchData(): Promise<void> {
   if (id.value && activity.value) {
     const commentsResponse = await server.api.comment.commentList(Number(id.value));
-    // Const productsResponse = await server.api.activity.activityProductsList(Number(id.value));
+    const productsResponse = await server.api.activity.activityProductsList(Number(id.value));
 
     comments.value = commentsResponse.data;
-    // Products.value = productsResponse.data;
+    products.value = productsResponse.data;
   }
 }
 
