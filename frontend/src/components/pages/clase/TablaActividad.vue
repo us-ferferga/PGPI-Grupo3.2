@@ -7,7 +7,7 @@
       bordered
       :rows="rows"
       :columns="columns"
-      row-key="name"
+      row-key="key"
       hide-bottom
       virtual-scroll
       selection="multiple" />
@@ -18,7 +18,7 @@
         class="ma-3"
         :label="selected.length > 0 ? `Añadir al carrito (${selected.length} elementos)` : 'Añadir al carrito'"
         color="purple"
-        @click="cart.concat(selected)">
+        @click="addToCart">
         <IMdiCart />
       </QBtn>
       <RouterLink
@@ -31,7 +31,7 @@
           text-color="black"
           :label="selected.length > 0 ? `Comprar ya (${selected.length} elementos)` : 'Comprar ya'"
           @click="() => {
-            cart.concat(selected)
+            addToCart()
             navigate()
           }" />
       </RouterLink>
@@ -46,7 +46,7 @@ import { computed, ref } from 'vue';
 
 const props = defineProps<{ products: Product[] }>();
 
-const selected = ref([]);
+const selected = ref<typeof rows.value>([]);
 const cart = useCart();
 
 interface Column {
@@ -85,6 +85,7 @@ const rows = computed(() => {
     const stringHoraFin = `${horaFin}:${minutosFin}`;
 
     return {
+      key: product.id,
       'dia_start': stringInicio,
       'dia_fin': stringFin,
       'hora_start': stringHoraInicio,
@@ -93,5 +94,15 @@ const rows = computed(() => {
     };
   });
 });
+
+function addToCart() {
+  const cartsId = cart.value.cart.map((item) => item.id);
+  const productsToAdd = selected.value.map((item) =>
+    props.products.find((product) => product.id === item.key))
+    .filter((i) => i !== undefined)
+    .filter((i) => !cartsId.includes(i?.id));
+
+  cart.value.cart = [...cart.value.cart, ...productsToAdd as Product[]];
+}
 
 </script>

@@ -13,7 +13,7 @@ import { mergeExcludingUnknown } from '@/utils/data-manipulation';
 import { useStorage } from '@vueuse/core';
 import axios, { AxiosError } from 'axios';
 import { Notify } from 'quasar';
-import { watch } from 'vue';
+import { watchEffect } from 'vue';
 
 interface AuthState {
   token?: string;
@@ -32,7 +32,8 @@ class ServerPlugin {
   private _defaultState: AuthState = {
     token: undefined,
     user: undefined,
-    rememberMe: false }; private _state = useStorage(
+    rememberMe: false };
+  private _state = useStorage(
     'auth',
     structuredClone(this._defaultState),
     localStorage,
@@ -123,7 +124,7 @@ class ServerPlugin {
     /**
      * Configure app's axios instance to perform requests to the server and clear itself when necessary.
      */
-    watch(() => this._state.value.token, async () => {
+    watchEffect(async () => {
       if (this._state.value.token) {
         try {
           this._axios.defaults.headers.common.Authorization = `Token ${this._state.value.token}`;

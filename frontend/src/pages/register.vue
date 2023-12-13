@@ -34,6 +34,7 @@
         v-model="password"
         class="form-field"
         filled
+        type="password"
         label="Contraseña"
         lazy-rules
         :disable="loading"
@@ -100,8 +101,6 @@ async function submitForm(): Promise<void> {
     loading.value = true;
 
     await server.signUpUser(username.value, password.value, email.value, rememberMe.value);
-
-    console.log(server.user);
 
     if (server.user) {
       await router.replace('/');

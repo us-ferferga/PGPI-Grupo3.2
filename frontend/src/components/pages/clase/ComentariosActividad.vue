@@ -1,5 +1,7 @@
 <template>
-  <QForm class="pa-10">
+  <QForm
+    v-if="$server.user"
+    class="pa-10">
     <QInput
       v-model="commentBody"
       filled
@@ -7,9 +9,11 @@
       label="Deja un comentario" />
     <div class="flex justify-end">
       <QBtn
+        :loading="loading"
         label="Enviar"
         type="submit"
-        color="primary" />
+        color="primary"
+        @click.prevent="submitComment" />
     </div>
   </QForm>
 
@@ -36,8 +40,30 @@
 
 <script setup lang="ts">
 import { Comment } from '@/api';
+import { useServer } from '@/composables';
 import { ref } from 'vue';
 
-const props = defineProps<{ comments: Comment[] }>();
+const props = defineProps<{ comments: Comment[], id: number }>();
+const emit = defineEmits<{
+  'update': [];
+}>();
+const server = useServer();
 const commentBody = ref('');
+const loading = ref(false);
+
+/**
+ * Send comment
+ */
+async function submitComment(): Promise<void> {
+  try {
+    loading.value = true;
+    await server.api.comment.commentCreateCreate({
+      activity: props.id,
+      content: commentBody.value
+    });
+    emit('update');
+  } catch {} finally {
+    loading.value = false;
+  }
+}
 </script>

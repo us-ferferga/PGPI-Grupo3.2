@@ -81,7 +81,7 @@ SPECTACULAR_SETTINGS = {
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_PRIVATE_NETWORK = True
-CSRF_TRUSTED_ORIGINS=['http://*', 'https://*']
+CSRF_TRUSTED_ORIGINS=['https://localhost:80', 'https://*', 'http://*']
 
 MIDDLEWARE = [
     'traineerbook.middlewares.AddHeaderMiddleware',

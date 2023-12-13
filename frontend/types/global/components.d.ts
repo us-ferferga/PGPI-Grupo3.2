@@ -30,6 +30,7 @@ declare module 'vue' {
     QImg: typeof import('quasar')['QImg']
     QInput: typeof import('quasar')['QInput']
     QItem: typeof import('quasar')['QItem']
+    QItemLabel: typeof import('quasar')['QItemLabel']
     QItemSection: typeof import('quasar')['QItemSection']
     QLayout: typeof import('quasar')['QLayout']
     QList: typeof import('quasar')['QList']

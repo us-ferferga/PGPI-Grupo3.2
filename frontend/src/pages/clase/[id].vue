@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="activity"
+    v-if="activity && activity.id"
     style="margin-top: 5%;">
     <div class="row">
       <div class="col-6">
@@ -21,7 +21,10 @@
     <h3 style="margin-left: 20px;">
       Comentarios
     </h3>
-    <ComentariosActividad :comments="comments" />
+    <ComentariosActividad
+      :id="activity.id"
+      :comments="comments"
+      @update="fetchData" />
   </div>
   <h1 v-else>
     No se ha encontrado la actividad

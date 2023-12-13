@@ -38,8 +38,6 @@
 
 <script setup lang="ts">
 import { activities } from '@/composables/use-activities';
-
-console.log(activities.value);
 </script>
 
 <style scoped>

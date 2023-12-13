@@ -1,10 +1,18 @@
 import { Product } from '@/api';
-import { Ref, ref } from 'vue';
+import { useStorage } from '@vueuse/core';
 
-export const cart = ref<Product[]>([]);
+export const cart = useStorage(
+  'cart',
+  {
+    cart: [] as Product[],
+    quantityMap: new Map<number, number>()
+  },
+  localStorage
+);
+
 /**
- *
+ * Retuns cart store
  */
-export function useCart(): Ref<Product[]> {
+export function useCart(): typeof cart {
   return cart;
 }

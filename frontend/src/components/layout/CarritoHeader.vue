@@ -3,18 +3,15 @@
     v-slot="{ navigate }"
     to="/cart"
     custom>
-    <QAvatar
-      color="green"
-      class="mr-2 cursor-pointer"
-      @click="navigate">
+    <QBtn :disable="cart.cart.length === 0" @click="() => navigate">
       <IMdiCart />
       <QBadge
-        v-if="cart.length > 0"
+        v-if="cart.cart.length > 0"
         color="red"
         floating>
-        {{ cart.length }}
+        {{ cart.cart.length }}
       </QBadge>
-    </QAvatar>
+    </QBtn>
   </RouterLink>
 </template>
 
