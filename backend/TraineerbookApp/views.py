@@ -18,6 +18,7 @@ from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from drf_spectacular.utils import OpenApiParameter
 
 """
 MUY IMPORTANTE PARA EL FUNCIONAMIENTO DE SWAGGER Y LA CORRECTA COMUNICACIÓN CON EL FRONTEND
@@ -65,15 +66,21 @@ class getProductsApiViewSet(ModelViewSet):
 
 """GET devuelve listado de productos segun el id sea igual a la actividad del producto FUNCIONAL"""
 
-class getProductDetailApiViewSet(ModelViewSet):
-  serializer_class = ProductSerializer
-  
-  def get_queryset(self):
-      
-      pk = self.kwargs.get('pk')
-      queryset = Product.objects.all().filter(activity=pk)
-      return queryset
-      
+class ProductDetailAPIView(APIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    @extend_schema(
+        responses={status.HTTP_200_OK: ProductSerializer},
+        description="Obtiene detalles de un producto por su ID de actividad."
+    )
+    def get(self, request, pk):
+        try:
+            product = Product.objects.get(activity=pk)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Product.DoesNotExist:
+            return Response({"detail": "Producto no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
 """GET devuelve listado de actividades al completo FUNCIONAL"""
 class getActivityApiViewSet(ModelViewSet):
@@ -432,3 +439,55 @@ class CheckoutView(APIView):
 
         # Envía el correo electrónico
         send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+
+
+class GetIncidentApiViewSet(APIView):
+    serializer_class = IncidentSerializer
+
+    @extend_schema(
+        request=None,
+        description="Pasando el ID de una incidencia, devuelve la incidencia por el ID",
+        responses={
+            200: OpenApiResponse(response=IncidentSerializer)}
+    )
+    def get(self, request, pk):
+        try:
+            incident = Incident.objects.get(id=pk)
+            serializer = self.serializer_class(incident)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Incident.DoesNotExist:
+            return Response({"detail": "Incidencia no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+
+class GetUserIncidentApiViewSet(APIView):
+    serializer_class = IncidentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    @extend_schema(
+        request=None,
+        description="Devuelve las incidencias del usuario autenticado",
+        parameters=[OpenApiParameter(name='user_id', location=OpenApiParameter.PATH, description="ID del usuario")],
+        responses={
+            200: OpenApiResponse(response=IncidentSerializer),
+            401: OpenApiResponse(response=None, description="El usuario no está autenticado")}
+    )
+    def get(self, request):
+        user = request.user
+        queryset = Incident.objects.filter(user=user)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class IncidentCreateApiViewSet(APIView):
+    @extend_schema(
+        request=IncidentSerializer,
+        description="Crea una incidencia. Si el usuario está autenticado, la asocia al usuario.",
+        responses={
+            201: OpenApiResponse(response=IncidentSerializer),
+            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos")}
+    )
+    def post(self, request):
+        user = request.user if request.user.is_authenticated else None
+        serializer = IncidentSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(user=user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

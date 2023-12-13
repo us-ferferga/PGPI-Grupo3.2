@@ -36,14 +36,12 @@ class ActivitySerializer(ModelSerializer):
         model = Activity
         fields = '__all__'
 
-
-class ProductSerializer(ModelSerializer):
-    teacher = TeacherSerializer()
-    class_space = ClassRoomSerializer()
+class ProductSerializer(serializers.ModelSerializer):
+    activity = ActivitySerializer()
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('id', 'product_hour_init', 'product_hour_fin', 'quantity', 'price', 'activity')
 
 class CartProductSerializer(serializers.Serializer):
     product_id = serializers.IntegerField(required = True)
@@ -106,3 +104,7 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = '__all__'
 
+class IncidentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Incident
+        fields = '__all__'
