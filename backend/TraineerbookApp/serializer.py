@@ -32,6 +32,17 @@ class ProductSerializer(ModelSerializer):
         model = Product
         fields = '__all__'
 
+class CartProductSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField(required = True)
+    quantity = serializers.IntegerField(required = True)
+
+class GetProductSerializer(serializers.Serializer):
+    activity_name = serializers.CharField(source='activity.name', required=False)
+    product_hour_init = serializers.DateTimeField()
+    product_hour_fin = serializers.DateTimeField()
+    quantity = serializers.IntegerField()
+    total_price = serializers.DecimalField(max_digits=10, decimal_places=2)
+
 class UserSerializer(serializers.ModelSerializer):
     """
     Serializer for user registration.

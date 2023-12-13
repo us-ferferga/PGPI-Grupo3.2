@@ -35,4 +35,7 @@ urlpatterns = [
     path('auth/me/', views.CurrentUserView.as_view(), name='current_user'),
     path('comment/create/', views.CreateComentView.as_view(), name='create_comment'),
     path('comment/<int:pk>/', views.GetCommentListApiViewSet.as_view({'get': 'list'}), name='comment_list'),
+    path('cart/', views.ShoppingCartGetView.as_view(), name='get_cart'),
+    path('cart/add/<int:product_id>/<int:quantity>/', views.ShoppingCartPutView.as_view(), name='add_to_cart'),
+    path('cart/remove/<int:product_id>/', views.ShoppingCartDeleteView.as_view(), name='remove_from_cart'),
 ]
