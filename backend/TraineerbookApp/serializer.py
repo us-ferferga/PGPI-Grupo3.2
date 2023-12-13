@@ -3,6 +3,8 @@ from TraineerbookApp.models import *
 from rest_framework.serializers import ModelSerializer
 from TraineerbookApp.serializer import *
 from base64 import b64encode
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.types import OpenApiTypes
 
 class BlobImageSerializer(serializers.ModelSerializer):
     data = serializers.SerializerMethodField()
@@ -11,6 +13,7 @@ class BlobImageSerializer(serializers.ModelSerializer):
         model = BlobImage
         fields = ('data',)
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_data(self, obj):
         return 'data:' + obj.mime_type + ';charset=utf-8;base64,' + b64encode(obj.content).decode('utf-8')
 

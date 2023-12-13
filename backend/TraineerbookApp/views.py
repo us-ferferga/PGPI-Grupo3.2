@@ -333,7 +333,10 @@ class ShoppingCartPutView(APIView):
 class ShoppingCartDeleteView(APIView):
     @extend_schema(
         description="Elimina un producto de la cesta del usuario",
-        responses={200: "OK", 404: "No encontrado"}
+        responses={
+            201: OpenApiResponse(response=None),
+            404: OpenApiResponse(response=None),
+            400: OpenApiResponse(response=None, description="Los datos de la petición son incorrectos")}
     )
     def delete(self, request, product_id):
         # Elimina un producto de la cesta
