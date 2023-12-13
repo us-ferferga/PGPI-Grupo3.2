@@ -45,6 +45,7 @@
         v-model="repeatPassword"
         class="form-field"
         filled
+        type="password"
         label="Repetir contraseña"
         lazy-rules
         :disable="loading"
@@ -62,7 +63,6 @@
         <QBtn
           label="Registrarse"
           type="submit"
-          :disable="loading"
           :loading="loading"
           color="primary" />
       </div>
@@ -100,7 +100,12 @@ async function submitForm(): Promise<void> {
     loading.value = true;
 
     await server.signUpUser(username.value, password.value, email.value, rememberMe.value);
-    await router.replace('/');
+
+    console.log(server.user);
+
+    if (server.user) {
+      await router.replace('/');
+    }
   } catch {} finally {
     loading.value = false;
   }

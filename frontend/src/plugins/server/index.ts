@@ -83,6 +83,10 @@ class ServerPlugin {
       }
 
       this._state.value.token = data.token;
+
+      const meResponse = await this._auth.authMeRetrieve();
+
+      this._state.value.user = meResponse.data;
     } catch (error) {
       this._dispatchError(isAxiosError(error) && error.response?.status === 401 ? 'Credenciales inválidas' : undefined);
     }
@@ -114,6 +118,10 @@ class ServerPlugin {
   };
 
   public constructor() {
+    if (!this._state.value.rememberMe) {
+      this._clearState();
+    }
+
     /**
      * Configure app's axios instance to perform requests to the server and clear itself when necessary.
      */
