@@ -2,7 +2,17 @@ from rest_framework import serializers
 from TraineerbookApp.models import *
 from rest_framework.serializers import ModelSerializer
 from TraineerbookApp.serializer import *
+from base64 import b64encode
 
+class BlobImageSerializer(serializers.ModelSerializer):
+    data = serializers.SerializerMethodField()
+
+    class Meta:
+        model = BlobImage
+        fields = ('data',)
+
+    def get_data(self, obj):
+        return 'data:' + obj.mime_type + ';charset=utf-8;base64,' + b64encode(obj.content).decode('utf-8')
 
 class TeacherSerializer(ModelSerializer):
     class Meta:
@@ -16,6 +26,7 @@ class ClassRoomSerializer(ModelSerializer):
 
 class ActivitySerializer(ModelSerializer):
     teacher = TeacherSerializer()
+    image = BlobImageSerializer()
     class_space = ClassRoomSerializer()
     
     class Meta:
@@ -24,9 +35,8 @@ class ActivitySerializer(ModelSerializer):
 
 
 class ProductSerializer(ModelSerializer):
-    activity = ActivitySerializer()
-    teacher = TeacherSerializer(source='activity.teacher')
-    class_space = ClassRoomSerializer(source='activity.class_space')
+    teacher = TeacherSerializer()
+    class_space = ClassRoomSerializer()
 
     class Meta:
         model = Product
@@ -76,7 +86,7 @@ class LoginSerializer(serializers.Serializer):
 
 
 
-class GetCommentSerializer(ModelSerializer):
+class CommentSerializer(ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Comment
