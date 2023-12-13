@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/doc/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/doc/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/products/', views.getProductsApiViewSet.as_view({'get': 'list'}), name="product-list"),
-    path('api/activity/products/<int:pk>/', views.ProductDetailAPIView.as_view(), name="product-details"),
+    path('api/activity/products/<int:activity_id>/', views.ProductListAPIView.as_view(), name='product-list'),
     path('api/activity/', views.getActivityApiViewSet.as_view({'get': 'list'}), name="activity-list"),
     path('api/auth/register/', views.RegisterUserView.as_view(), name='register'),
     path('api/auth/login/', views.LoginView.as_view(), name='login'),
