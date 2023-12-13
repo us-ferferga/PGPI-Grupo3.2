@@ -23,7 +23,7 @@ ENV ADMIN_EMAIL=$ADMIN_EMAIL
 
 COPY .docker /scripts
 COPY backend /app/backend/
-COPY assets /app/assets/
+COPY assets/sample_data /app/assets/sample_data
 COPY --from=build /app/frontend/dist/ /app/backend/static/
 RUN mkdir -p /data \
     && rm -rf /bin/sh \
@@ -39,3 +39,4 @@ EXPOSE 80
 
 ENTRYPOINT [ "/scripts/entrypoint.sh" ]
 CMD [ "/scripts/run.sh" ]
+LABEL org.opencontainers.image.source = "https://github.com/us-ferferga/PGPI-Grupo3.2"
