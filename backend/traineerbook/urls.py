@@ -20,8 +20,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,4 +38,5 @@ urlpatterns = [
     path('api/cart/', views.ShoppingCartGetView.as_view(), name='get_cart'),
     path('api/cart/add/<int:product_id>/<int:quantity>/', views.ShoppingCartPutView.as_view(), name='add_to_cart'),
     path('api/cart/remove/<int:product_id>/', views.ShoppingCartDeleteView.as_view(), name='remove_from_cart'),
+    path('api/cart/checkout/',views.CheckoutView.as_view(), name= 'checkout')
 ]
