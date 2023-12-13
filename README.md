@@ -42,9 +42,9 @@ se cargarán correctamente**
 
 ---
 
-Se puede personalizar el *username* y el *email* del superadministrador. Estos son los valores
-por defecto
+Se puede personalizar el *username* y el *email* del superadministrador. **Solo tienen efecto la primera vez,
+al crear los datos iniciales**.Estos son los valores por defecto:
 
 ```
--e ADMIN_USER=root -e ADMIN_EMAIL=root@root.com
+-e DJANGO_SUPERUSER_USERNAME=admin -e DJANGO_SUPERUSER_EMAIL=r@root.com -e DJANGO_SUPERUSER_PASSWORD=root
 ```

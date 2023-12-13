@@ -9,8 +9,8 @@ echo
 echo
 
 if [ -z "$empty_dir" ]; then
-  echo "===== NO DATA. POPULATING... ====="
-  python manage.py createsuperuser --noinput --username ${ADMIN_USER} --email ${ADMIN_EMAIL}
+  echo "===== NO DATABASE FOUND. POPULATING... ====="
+  python manage.py createsuperuser --noinput
   python manage.py populate_db
 else
   echo "===== THERE WAS ALREADY AVAILABLE DATA. SKIPPING POPULATION ====="
